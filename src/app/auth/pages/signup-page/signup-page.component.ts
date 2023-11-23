@@ -26,7 +26,14 @@ export class SignupPageComponent {
       password: new FormControl('', [Validators.required]),
       confirmPassword: new FormControl('', [Validators.required]),
     },
-    { validators: [] },
+    {
+      validators: [
+        this.validatorsService.isFieldOneEqualFieldTwo(
+          'password',
+          'confirmPassword',
+        ),
+      ],
+    },
   );
 
   constructor(

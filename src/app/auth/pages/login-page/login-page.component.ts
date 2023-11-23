@@ -65,7 +65,7 @@ export class LoginPageComponent {
     this.isLoading = true;
     // (user) => this.router.navigate(['/'])
     this.authService.login({ ...this.form.value }).subscribe((user) => {
-      console.log(JSON.parse(user));
+      console.log(user);
       this.isLoading = false;
     });
 
