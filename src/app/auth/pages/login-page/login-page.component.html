@@ -1,0 +1,57 @@
+<shared-loading-spinner *ngIf="isLoading"></shared-loading-spinner>
+
+<div class="flex h-full flex-col justify-center gap-12">
+  <div class="flex flex-col gap-5">
+    <div class="flex justify-center">
+      <h1 class="text-4xl font-bold">Comienza a viajar</h1>
+    </div>
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onLogin()"
+      class="flex h-full flex-col gap-4"
+    >
+      <input
+        class="input"
+        formControlName="email"
+        name="email"
+        placeholder="Correo"
+        type="email"
+      />
+
+      <span *ngIf="isValidField('email')" class="text-red-600">{{
+        getFieldError('email')
+      }}</span>
+
+      <input
+        class="input"
+        formControlName="password"
+        name="password"
+        placeholder="Contraseña"
+        type="text"
+      />
+
+      <span *ngIf="isValidField('password')" class="text-red-600">{{
+        getFieldError('password')
+      }}</span>
+
+      <button type="submit" class="button-black">Ingresar</button>
+    </form>
+
+    <div class="flex justify-end">
+      <strong>¿Olvidaste tu contraseña?</strong>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <p>
+      ¿Aún no tienes una cuenta?
+      <span
+        routerLink="sign-up"
+        routerLinkActive="active"
+        class="cursor-pointer font-bold"
+        >Regístrate</span
+      >
+    </p>
+  </div>
+</div>
