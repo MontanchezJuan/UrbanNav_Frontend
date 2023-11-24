@@ -17,6 +17,7 @@ import { ValidatorsService } from '../../../shared/services/validators.service';
 })
 export class SignupPageComponent {
   public isLoading: boolean = false;
+  public typePassword: string = 'password';
   public form: FormGroup = this.fb.group(
     {
       email: new FormControl('', [
@@ -43,6 +44,14 @@ export class SignupPageComponent {
     private validatorsService: ValidatorsService,
   ) {}
 
+  changeTypePassword(): void {
+    this.typePassword = 'password';
+  }
+
+  changeTypeText(): void {
+    this.typePassword = 'text';
+  }
+
   isValidField(field: string): boolean | null {
     return this.validatorsService.isValidField(this.form, field);
   }
@@ -57,8 +66,11 @@ export class SignupPageComponent {
         case 'required':
           return 'Este campo es requerido';
 
-        case 'email':
-          return 'Este campo es de tipo email';
+        case 'pattern':
+          return 'Ingresa un email válido';
+
+        case 'notEqual':
+          return 'Las contraseñas no coinciden';
       }
     }
 

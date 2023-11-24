@@ -12,6 +12,7 @@ import { ValidatorsService } from '../../../shared/services/validators.service';
 })
 export class LoginPageComponent {
   public isLoading: boolean = false;
+  public typePassword: string = 'password';
   public form: FormGroup = new FormGroup({
     email: new FormControl('', [
       Validators.required,
@@ -28,6 +29,14 @@ export class LoginPageComponent {
     private validatorsService: ValidatorsService,
   ) {}
 
+  changeTypePassword(): void {
+    this.typePassword = 'password';
+  }
+
+  changeTypeText(): void {
+    this.typePassword = 'text';
+  }
+
   isValidField(field: string): boolean | null {
     return this.validatorsService.isValidField(this.form, field);
   }
@@ -42,8 +51,8 @@ export class LoginPageComponent {
         case 'required':
           return 'Este campo es requerido';
 
-        case 'email':
-          return 'Este campo es de tipo email';
+        case 'pattern':
+          return 'Ingresa un email válido';
 
         // case 'minlength':
         //   return 'o';
