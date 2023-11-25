@@ -8,7 +8,9 @@ import {
   Router,
   UrlSegment,
 } from '@angular/router';
+
 import { Observable, tap } from 'rxjs';
+
 import { AuthService } from '../services/auth.service';
 
 const checkAuthStatus = (): Observable<boolean> => {
@@ -18,6 +20,7 @@ const checkAuthStatus = (): Observable<boolean> => {
   return authService.checkAuthentication().pipe(
     tap((isAuthenticated) => {
       if (!isAuthenticated) {
+        localStorage.clear();
         router.navigateByUrl('auth');
       }
     }),

@@ -16,14 +16,21 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    canActivate: [publicCanActivateGuard],
+    canMatch: [publicCanMatchGuard],
   },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
     canActivate: [publicCanActivateGuard],
     canMatch: [publicCanMatchGuard],
-    // canActivate: [authCanActivateGuard],
-    // canMatch: [authCanMatchGuard],
+  },
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('./profile/profile.module').then((m) => m.ProfileModule),
+    canActivate: [authCanActivateGuard],
+    canMatch: [authCanMatchGuard],
   },
   {
     path: '404',

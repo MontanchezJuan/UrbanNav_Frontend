@@ -17,8 +17,6 @@ export class LoginPageComponent {
     email: new FormControl('', [
       Validators.required,
       Validators.pattern(this.validatorsService.emailPattern),
-      // Validators.minLength(4),
-      // Validators.maxLength(10),
     ]),
     password: new FormControl('', [Validators.required]),
   });
@@ -53,12 +51,6 @@ export class LoginPageComponent {
 
         case 'pattern':
           return 'Ingresa un email válido';
-
-        // case 'minlength':
-        //   return 'o';
-
-        // case 'maxlength':
-        //   return 'uwu';
       }
     }
 
@@ -72,12 +64,16 @@ export class LoginPageComponent {
     }
 
     this.isLoading = true;
-    // (user) => this.router.navigate(['/'])
-    this.authService.login({ ...this.form.value }).subscribe((user) => {
-      console.log(user);
-      this.isLoading = false;
+    this.authService.login({ ...this.form.value }).subscribe(() => {
+      this.authService.checkAuthentication().subscribe(() => {
+        const redirectTo = this.authService.redirectToAccount();
+
+        this.router.navigate([redirectTo]);
+
+        this.isLoading = false;
+      });
     });
 
-    // this.form.reset({ email: '', password: '' });
+    this.form.reset({ email: '', password: '' });
   }
 }

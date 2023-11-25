@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
 import { ValidatorsService } from '../../../shared/services/validators.service';
+import { DataLogin } from '../../interfaces/auth.interface';
 
 @Component({
   selector: 'app-signup-page',
@@ -84,5 +85,18 @@ export class SignupPageComponent {
     }
 
     this.isLoading = true;
+
+    const data: DataLogin = {
+      email: this.form.controls['email'].value,
+      password: this.form.controls['password'].value,
+    };
+
+    this.authService.login(data).subscribe(() => {
+      this.router.navigate(['profile']);
+
+      this.isLoading = false;
+    });
+
+    this.form.reset({ email: '', password: '', confirmPassword: '' });
   }
 }

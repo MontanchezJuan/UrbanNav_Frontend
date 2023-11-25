@@ -18,7 +18,8 @@ const checkAuthStatus = (): Observable<boolean> => {
   return authService.checkAuthentication().pipe(
     tap((isAuthenticated) => {
       if (isAuthenticated) {
-        router.navigateByUrl('auth');
+        const redirectTo = authService.redirectToAccount();
+        router.navigateByUrl(redirectTo);
       }
     }),
     map((isAuthenticated) => !isAuthenticated),

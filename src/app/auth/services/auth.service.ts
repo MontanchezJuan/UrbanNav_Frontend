@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environments } from '../../../environments/environments';
-import { DataUser, User } from '../interfaces/user.interface';
+import {
+  DataLogin,
+  DataToken,
+  Response,
+  User,
+} from '../interfaces/auth.interface';
 import { Observable, tap, of, catchError, map } from 'rxjs';
 
 @Injectable({
@@ -9,37 +14,68 @@ import { Observable, tap, of, catchError, map } from 'rxjs';
 })
 export class AuthService {
   private baseUrl = environments.ms_security;
-  private user?: User;
+  private user?: User | null;
+
   constructor(private http: HttpClient) {}
 
-  get currentUser(): User | undefined {
-    if (!this.user) return undefined;
+  get currentUser(): User {
+    if (!this.user) return Object();
 
     return structuredClone(this.user);
   }
 
-  login(data: DataUser): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/security/login`, data);
-    // .pipe();
-    // tap((user) => console.log(user)),
-    // tap((user) => (this.user = user)),
-    // tap((user) => localStorage.setItem('token', user.id)),
+  login(data: DataLogin): Observable<DataToken> {
+    return this.http
+      .post<DataToken>(`${this.baseUrl}/security/login`, data)
+      .pipe(
+        tap((response) => {
+          console.log(response);
+          localStorage.setItem('token', response.data);
+        }),
+      );
+  }
+
+  signup(data: DataLogin): Observable<DataToken> {
+    return this.http.post<DataToken>(`${this.baseUrl}/security/sign-up`, data);
+  }
+
+  getHeaders(): HttpHeaders {
+    const token = JSON.parse(localStorage.getItem('token')!);
+
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
   }
 
   checkAuthentication(): Observable<boolean> {
     if (!localStorage.getItem('token')) return of(false);
 
-    const token = localStorage.getItem('token');
+    const headers = this.getHeaders();
 
-    return this.http.get<User>(`${this.baseUrl}/`).pipe(
-      tap((user) => (this.user = user)),
-      map((user) => !!user),
-      catchError((error) => of(false)),
-    );
+    return this.http
+      .get<Response>(`${this.baseUrl}/security/get-user`, {
+        headers,
+      })
+      .pipe(
+        tap((response) => (this.user = response.data)),
+        map((user) => !!user),
+        catchError(() => of(false)),
+      );
+  }
+
+  redirectToAccount(): string {
+    if (!this.user) return '';
+
+    if (!this.user.role.name) return 'profile';
+
+    // if (!this.user.role.name) return 'profile/license';
+
+    if (!this.user.userProfile) return 'profile/costumize-profile';
+
+    return `${this.user.role.name}`;
   }
 
   logout(): void {
-    this.user = undefined;
     localStorage.clear();
   }
 }
