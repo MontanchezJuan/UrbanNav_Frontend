@@ -33,10 +33,3 @@ export const authCanActivateGuard: CanActivateFn = (
 ): boolean | Observable<boolean> => {
   return checkAuthStatus();
 };
-
-export const authCanMatchGuard: CanMatchFn = (
-  route: Route,
-  segments: UrlSegment[],
-): boolean | Observable<boolean> => {
-  return checkAuthStatus();
-};

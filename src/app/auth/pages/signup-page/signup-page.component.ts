@@ -7,6 +7,8 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import Swal from 'sweetalert2';
+
 import { AuthService } from '../../services/auth.service';
 import { ValidatorsService } from '../../../shared/services/validators.service';
 import { DataLogin } from '../../interfaces/auth.interface';
@@ -65,7 +67,7 @@ export class SignupPageComponent {
     for (const key of Object.keys(errors)) {
       switch (key) {
         case 'required':
-          return 'Este campo es requerido';
+          return `El campo ${field} es requerido`;
 
         case 'pattern':
           return 'Ingresa un email válido';
@@ -91,12 +93,34 @@ export class SignupPageComponent {
       password: this.form.controls['password'].value,
     };
 
-    this.authService.login(data).subscribe(() => {
-      this.router.navigate(['profile']);
+    this.authService.signup(data).subscribe({
+      next: (response) => {
+        Swal.fire({
+          color: '#0F0F0F',
+          confirmButtonColor: '#0F0F0F',
+          icon: 'success',
+          iconColor: '#0F0F0F',
+          title: `${response.message}`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.router.navigate(['auth']);
 
-      this.isLoading = false;
+            this.isLoading = false;
+
+            this.form.reset({ email: '', password: '', confirmPassword: '' });
+          }
+        });
+      },
+      error: (message) => {
+        Swal.fire({
+          color: '#0F0F0F',
+          confirmButtonColor: '#0F0F0F',
+          icon: 'error',
+          iconColor: '#0F0F0F',
+          title: 'Error',
+          text: message,
+        });
+      },
     });
-
-    this.form.reset({ email: '', password: '', confirmPassword: '' });
   }
 }

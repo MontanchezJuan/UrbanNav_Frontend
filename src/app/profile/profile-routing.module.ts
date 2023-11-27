@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 import { SelectRolePageComponent } from './pages/select-role-page/select-role-page.component';
-import { CustomizeProfilePageComponent } from './pages/customize-profile-page/customize-profile-page.component';
+import { CreateProfilePageComponent } from '../shared/pages/userprofile/create-profile-page/create-profile-page.component';
 
 const routes: Routes = [
   {
@@ -11,7 +11,7 @@ const routes: Routes = [
     component: LayoutPageComponent,
     children: [
       { path: '', component: SelectRolePageComponent },
-      { path: 'costumize-profile', component: CustomizeProfilePageComponent },
+      { path: 'costumize-profile', component: CreateProfilePageComponent },
       { path: '**', redirectTo: '' },
     ],
   },

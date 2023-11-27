@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import Swal from 'sweetalert2';
+
 import { AuthService } from '../../services/auth.service';
 import { ValidatorsService } from '../../../shared/services/validators.service';
 
@@ -47,7 +49,7 @@ export class LoginPageComponent {
     for (const key of Object.keys(errors)) {
       switch (key) {
         case 'required':
-          return 'Este campo es requerido';
+          return `El campo ${field} es requerido`;
 
         case 'pattern':
           return 'Ingresa un email válido';
@@ -64,16 +66,41 @@ export class LoginPageComponent {
     }
 
     this.isLoading = true;
-    this.authService.login({ ...this.form.value }).subscribe(() => {
-      this.authService.checkAuthentication().subscribe(() => {
-        const redirectTo = this.authService.redirectToAccount();
 
-        this.router.navigate([redirectTo]);
+    this.authService.login({ ...this.form.value }).subscribe({
+      next: () => {
+        this.authService.checkAuthentication().subscribe({
+          next: () => {
+            const redirectTo = this.authService.redirectToAccount();
 
-        this.isLoading = false;
-      });
+            this.router.navigate([redirectTo]);
+
+            this.isLoading = false;
+
+            this.form.reset({ email: '', password: '' });
+          },
+          error: (message) => {
+            Swal.fire({
+              color: '#0F0F0F',
+              confirmButtonColor: '#0F0F0F',
+              icon: 'error',
+              iconColor: '#0F0F0F',
+              title: 'Error',
+              text: message,
+            });
+          },
+        });
+      },
+      error: (message) => {
+        Swal.fire({
+          color: '#0F0F0F',
+          confirmButtonColor: '#0F0F0F',
+          icon: 'error',
+          iconColor: '#0F0F0F',
+          title: 'Error',
+          text: message,
+        });
+      },
     });
-
-    this.form.reset({ email: '', password: '' });
   }
 }

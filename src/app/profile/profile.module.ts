@@ -8,14 +8,9 @@ import { SharedModule } from '../shared/shared.module';
 
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 import { SelectRolePageComponent } from './pages/select-role-page/select-role-page.component';
-import { CustomizeProfilePageComponent } from './pages/customize-profile-page/customize-profile-page.component';
 
 @NgModule({
-  declarations: [
-    CustomizeProfilePageComponent,
-    LayoutPageComponent,
-    SelectRolePageComponent,
-  ],
+  declarations: [LayoutPageComponent, SelectRolePageComponent],
   imports: [CommonModule, ProfileRoutingModule, SharedModule, MatIconModule],
 })
 export class ProfileModule {}

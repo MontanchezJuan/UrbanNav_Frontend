@@ -1,9 +1,9 @@
-export interface Response {
+export interface UserMatchRoleResponse {
   message: string;
-  data: User;
+  data: DataUser;
 }
 
-export interface User {
+export interface DataUser {
   _id: string;
   email: string;
   password: string;
@@ -21,19 +21,4 @@ export interface Role {
   description: string;
   status: number;
   totalPermissions: null;
-}
-
-export interface DataLogin {
-  email: string;
-  password: string;
-}
-
-export interface DataToken {
-  message: string;
-  data: string;
-}
-
-export interface DataSingup {
-  message: string;
-  data: User;
 }

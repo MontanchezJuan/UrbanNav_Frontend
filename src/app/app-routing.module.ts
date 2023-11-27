@@ -1,14 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import {
-  authCanActivateGuard,
-  authCanMatchGuard,
-} from './auth/guards/auth.guard';
-import {
-  publicCanActivateGuard,
-  publicCanMatchGuard,
-} from './auth/guards/public.guard';
+import { authCanActivateGuard } from './auth/guards/auth.guard';
+import { publicCanActivateGuard } from './auth/guards/public.guard';
 
 import { Error404PageComponent } from './shared/pages/error404-page/error404-page.component';
 
@@ -17,20 +11,17 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
     canActivate: [publicCanActivateGuard],
-    canMatch: [publicCanMatchGuard],
   },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
     canActivate: [publicCanActivateGuard],
-    canMatch: [publicCanMatchGuard],
   },
   {
     path: 'profile',
     loadChildren: () =>
       import('./profile/profile.module').then((m) => m.ProfileModule),
     canActivate: [authCanActivateGuard],
-    canMatch: [authCanMatchGuard],
   },
   {
     path: '404',

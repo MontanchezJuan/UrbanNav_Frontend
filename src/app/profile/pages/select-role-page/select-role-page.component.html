@@ -1,4 +1,8 @@
-<div class="flex h-full w-[100vw] flex-col justify-center gap-8">
+<shared-loading-spinner *ngIf="isLoading"></shared-loading-spinner>
+
+<div
+  class="flex h-[calc(100vh_-_64px)] w-[100vw] flex-col justify-center gap-8"
+>
   <div class="flex justify-center">
     <h3>Seleccione cómo viajar</h3>
   </div>

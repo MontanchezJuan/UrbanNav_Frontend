@@ -3,11 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environments } from '../../../environments/environments';
 import {
   DataLogin,
+  DataSingup,
   DataToken,
   Response,
   User,
 } from '../interfaces/auth.interface';
-import { Observable, tap, of, catchError, map } from 'rxjs';
+import { Observable, tap, of, catchError, map, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -28,22 +29,24 @@ export class AuthService {
     return this.http
       .post<DataToken>(`${this.baseUrl}/security/login`, data)
       .pipe(
-        tap((response) => {
-          console.log(response);
-          localStorage.setItem('token', response.data);
-        }),
+        tap((response) => localStorage.setItem('token', response.data)),
+        catchError((error) => throwError(() => error.message)),
       );
   }
 
-  signup(data: DataLogin): Observable<DataToken> {
-    return this.http.post<DataToken>(`${this.baseUrl}/security/sign-up`, data);
+  signup(data: DataLogin): Observable<DataSingup> {
+    return this.http
+      .post<DataSingup>(`${this.baseUrl}/security/sign-up`, data)
+      .pipe(catchError((error) => throwError(() => error.message)));
   }
 
   getHeaders(): HttpHeaders {
-    const token = JSON.parse(localStorage.getItem('token')!);
+    const token: string | null = localStorage.getItem('token');
 
     return new HttpHeaders({
       Authorization: `Bearer ${token}`,
+      // 'Access-Control-Allow-Origin': 'http://localhost:4200',
+      // 'Access-Control-Allow-Credentials': 'true',
     });
   }
 
@@ -59,14 +62,14 @@ export class AuthService {
       .pipe(
         tap((response) => (this.user = response.data)),
         map((user) => !!user),
-        catchError(() => of(false)),
+        catchError((error) => throwError(() => error.message)),
       );
   }
 
   redirectToAccount(): string {
     if (!this.user) return '';
 
-    if (!this.user.role.name) return 'profile';
+    if (this.user.role.name === 'default') return 'profile';
 
     // if (!this.user.role.name) return 'profile/license';
 

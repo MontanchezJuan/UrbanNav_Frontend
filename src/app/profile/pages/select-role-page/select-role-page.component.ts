@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+
 import Swal from 'sweetalert2';
-import { ProfileService } from '../../services/profile.service';
+
+import { UserService } from '../../../shared/services/ms-security/user.service';
 
 type Role = 'cliente' | 'conductor';
 
@@ -11,9 +13,11 @@ type Role = 'cliente' | 'conductor';
   styles: ``,
 })
 export class SelectRolePageComponent {
+  public isLoading: boolean = false;
+
   constructor(
     private router: Router,
-    private profileService: ProfileService,
+    private userService: UserService,
   ) {}
 
   selectRole(role: Role) {
@@ -30,6 +34,8 @@ export class SelectRolePageComponent {
       title: `¿Estás seguro que deseas viajar como ${role}?`,
     }).then((result) => {
       if (result.isConfirmed) {
+        this.isLoading = true;
+
         let id_role: string = '';
 
         switch (role) {
@@ -44,15 +50,32 @@ export class SelectRolePageComponent {
             break;
         }
 
-        this.profileService.matchRole(id_role).subscribe(() =>
-          Swal.fire({
-            color: '#0F0F0F',
-            confirmButtonColor: '#0F0F0F',
-            icon: 'success',
-            iconColor: '#0F0F0F',
-            title: 'Todo correcto',
-          }),
-        );
+        this.userService.matchRole(id_role).subscribe({
+          next: () =>
+            Swal.fire({
+              color: '#0F0F0F',
+              confirmButtonColor: '#0F0F0F',
+              icon: 'success',
+              iconColor: '#0F0F0F',
+              title: 'Todo correcto',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.router.navigateByUrl('profile/costumize-profile');
+
+                this.isLoading = false;
+              }
+            }),
+          error: (message) => {
+            Swal.fire({
+              color: '#0F0F0F',
+              confirmButtonColor: '#0F0F0F',
+              icon: 'error',
+              iconColor: '#0F0F0F',
+              title: 'Error',
+              text: message,
+            });
+          },
+        });
       }
     });
   }
