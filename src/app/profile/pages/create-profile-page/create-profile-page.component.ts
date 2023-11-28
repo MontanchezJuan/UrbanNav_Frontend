@@ -1,19 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import Swal from 'sweetalert2';
 
-import { AuthService } from '../../../../auth/services/auth.service';
-import { DataUserProfile } from '../../../interfaces/ms-security/users-profile.interface';
-import { UserProfileService } from '../../../services/ms-security/user-profile.service';
-import { UserService } from '../../../services/ms-security/user.service';
-import { ValidatorsService } from '../../../services/validators.service';
+import { AuthService } from '../../../auth/services/auth.service';
+import { DataUserProfile } from '../../../shared/interfaces/ms-security/users-profile.interface';
+import { UserProfileService } from '../../../shared/services/ms-security/user-profile.service';
+import { UserService } from '../../../shared/services/ms-security/user.service';
+import { ValidatorsService } from '../../../shared/services/validators.service';
 
 interface Color {
   name: string;
@@ -25,9 +25,8 @@ interface Color {
   templateUrl: './create-profile-page.component.html',
   styles: ``,
 })
-export class CreateProfilePageComponent implements OnInit {
+export class CreateProfilePageComponent {
   public isLoading: boolean = false;
-  public createMode: boolean = true;
   public profilephoto: string =
     'https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png';
   public backgroundColor: string = '';
@@ -50,41 +49,12 @@ export class CreateProfilePageComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
-    private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
     private userProfileService: UserProfileService,
     private validatorsService: ValidatorsService,
   ) {
     this.max = this.currentDate();
-  }
-
-  ngOnInit(): void {
-    if (this.route.snapshot.paramMap.get('id')) {
-      this.createMode = false;
-
-      this.userProfileService
-        .show(this.route.snapshot.paramMap.get('id')!)
-        .subscribe({
-          next: (response) => {
-            this.profilephoto = response.data.profilePhoto;
-            this.backgroundColor = response.data.backgroundImage;
-
-            this.form.reset(response.data);
-            this.form.get('birthday')!.setValue(response.data.birthday);
-          },
-          error: (message) => {
-            Swal.fire({
-              color: '#0F0F0F',
-              confirmButtonColor: '#0F0F0F',
-              icon: 'error',
-              iconColor: '#0F0F0F',
-              title: 'Error',
-              text: message,
-            });
-          },
-        });
-    }
   }
 
   currentDate(): string {
@@ -136,7 +106,7 @@ export class CreateProfilePageComponent implements OnInit {
     this.backgroundColor = txtInput;
   }
 
-  onCreate(): void {
+  onSubmit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -163,17 +133,51 @@ export class CreateProfilePageComponent implements OnInit {
           iconColor: '#0F0F0F',
           title: `${response.message}`,
         }).then(() => {
-          this.isLoading = false;
+          const userProfile = this.userProfileService.currentUserProfile;
 
-          this.goBack();
+          this.userService.matchUserProfile(userProfile._id).subscribe({
+            next: () => {
+              this.authService.getUser().subscribe({
+                next: () => {
+                  const redirectTo = this.authService.redirectToAccount();
 
-          this.form.reset({
-            name: '',
-            lastName: '',
-            profilePhoto: '',
-            birthday: '',
-            backgroundImage: '',
-            numberPhone: '',
+                  console.log(redirectTo);
+
+                  this.router.navigateByUrl(redirectTo);
+
+                  this.isLoading = false;
+
+                  this.form.reset({
+                    name: '',
+                    lastName: '',
+                    profilePhoto: '',
+                    birthday: '',
+                    backgroundImage: '',
+                    numberPhone: '',
+                  });
+                },
+                error: (message) => {
+                  Swal.fire({
+                    color: '#0F0F0F',
+                    confirmButtonColor: '#0F0F0F',
+                    icon: 'error',
+                    iconColor: '#0F0F0F',
+                    title: 'Error',
+                    text: message,
+                  });
+                },
+              });
+            },
+            error: (message) => {
+              Swal.fire({
+                color: '#0F0F0F',
+                confirmButtonColor: '#0F0F0F',
+                icon: 'error',
+                iconColor: '#0F0F0F',
+                title: 'Error',
+                text: message,
+              });
+            },
           });
         });
       },
@@ -190,67 +194,5 @@ export class CreateProfilePageComponent implements OnInit {
         });
       },
     });
-  }
-
-  onUpdate(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
-    this.isLoading = true;
-
-    const data: DataUserProfile = {
-      name: this.form.controls['name'].value,
-      lastName: this.form.controls['lastName'].value,
-      profilePhoto: this.form.controls['profilePhoto'].value,
-      birthday: this.form.controls['birthday'].value,
-      backgroundImage: this.form.controls['backgroundImage'].value,
-      numberPhone: this.form.controls['numberPhone'].value,
-      status: 0,
-    };
-
-    this.userProfileService
-      .update(data, this.route.snapshot.paramMap.get('id')!)
-      .subscribe({
-        next: (response) => {
-          Swal.fire({
-            color: '#0F0F0F',
-            confirmButtonColor: '#0F0F0F',
-            icon: 'success',
-            iconColor: '#0F0F0F',
-            title: `${response.message}`,
-          }).then(() => {
-            this.isLoading = false;
-
-            this.goBack();
-
-            this.form.reset({
-              name: '',
-              lastName: '',
-              profilePhoto: '',
-              birthday: '',
-              backgroundImage: '',
-              numberPhone: '',
-            });
-          });
-        },
-        error: (message) => {
-          this.isLoading = false;
-
-          Swal.fire({
-            color: '#0F0F0F',
-            confirmButtonColor: '#0F0F0F',
-            icon: 'error',
-            iconColor: '#0F0F0F',
-            title: 'Error',
-            text: message,
-          });
-        },
-      });
-  }
-
-  goBack(): void {
-    this.router.navigate(['admin/list-user-profiles']);
   }
 }

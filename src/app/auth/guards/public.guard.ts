@@ -3,10 +3,7 @@ import {
   ActivatedRouteSnapshot,
   CanActivateFn,
   RouterStateSnapshot,
-  CanMatchFn,
-  Route,
   Router,
-  UrlSegment,
 } from '@angular/router';
 import { Observable, tap, map } from 'rxjs';
 import { AuthService } from '../services/auth.service';

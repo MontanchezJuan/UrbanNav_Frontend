@@ -14,7 +14,7 @@ import { ValidatorsService } from '../../../shared/services/validators.service';
 import { DataLogin } from '../../interfaces/auth.interface';
 
 @Component({
-  selector: 'app-signup-page',
+  selector: 'auth-signup-page',
   templateUrl: './signup-page.component.html',
   styles: ``,
 })
@@ -101,17 +101,17 @@ export class SignupPageComponent {
           icon: 'success',
           iconColor: '#0F0F0F',
           title: `${response.message}`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.router.navigate(['auth']);
+        }).then(() => {
+          this.router.navigate(['auth']);
 
-            this.isLoading = false;
+          this.isLoading = false;
 
-            this.form.reset({ email: '', password: '', confirmPassword: '' });
-          }
+          this.form.reset({ email: '', password: '', confirmPassword: '' });
         });
       },
       error: (message) => {
+        this.isLoading = false;
+
         Swal.fire({
           color: '#0F0F0F',
           confirmButtonColor: '#0F0F0F',

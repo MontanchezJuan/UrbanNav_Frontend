@@ -1,1 +1,44 @@
-<p>list-profile-page works!</p>
+<shared-loading-spinner *ngIf="isLoading"></shared-loading-spinner>
+
+<div class="w-[1200px]">
+  <div class="flex justify-center">
+    <h1 class="my-4 text-4xl font-bold">Listado de perfiles de usuario</h1>
+  </div>
+
+  <button
+    (click)="navegateTo('admin/create-profile')"
+    class="button-black ml-8"
+  >
+    crear
+  </button>
+
+  <ul>
+    <li
+      class="mx-8 my-4 flex justify-between"
+      *ngFor="let userProfile of userProfiles"
+    >
+      <div class="flex gap-8">
+        <p>
+          {{ userProfile._id }}
+        </p>
+
+        <p>
+          {{ userProfile.name | titlecase }}
+        </p>
+      </div>
+
+      <div class="flex gap-8">
+        <button
+          (click)="navegateTo('admin/edit-profile/' + userProfile._id)"
+          class="button-black"
+        >
+          actualizar
+        </button>
+
+        <button (click)="onDelete(userProfile._id)" class="button-black">
+          eliminar
+        </button>
+      </div>
+    </li>
+  </ul>
+</div>

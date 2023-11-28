@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { Observable, catchError, of, tap, throwError } from 'rxjs';
+
 import { AuthService } from '../../../auth/services/auth.service';
 import { environments } from '../../../../environments/environments';
-import { UserMatchRoleResponse } from '../../interfaces/ms-security/users.interface';
+import {
+  MatchProfileResponse,
+  UserMatchRoleResponse,
+} from '../../interfaces/ms-security/users.interface';
+import { Response } from '../../interfaces/ms-security/users-profile.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +22,7 @@ export class UserService {
     private http: HttpClient,
   ) {}
 
-  matchRole(id_role: string): Observable<Object> {
+  matchUserProfile(id_user_profile: string): Observable<Object> {
     if (!localStorage.getItem('token')) return of(false);
 
     const headers = this.authService.getHeaders();
@@ -24,9 +30,31 @@ export class UserService {
     const user = this.authService.currentUser;
 
     return this.http
-      .put(`${this.ms_security}/users/user/${user._id}/role/${id_role}`, null, {
-        headers,
-      })
-      .pipe(catchError((error) => throwError(() => error.message)));
+      .put<MatchProfileResponse>(
+        `${this.ms_security}/users/user/${user._id}/user_profile/${id_user_profile}`,
+        null,
+        {
+          headers,
+        },
+      )
+      .pipe(catchError((error) => throwError(() => error.error.message)));
+  }
+
+  matchRole(id_role: string): Observable<Response> {
+    if (!localStorage.getItem('token')) return of();
+
+    const headers = this.authService.getHeaders();
+
+    const user = this.authService.currentUser;
+
+    return this.http
+      .put<Response>(
+        `${this.ms_security}/users/user/${user._id}/role/${id_role}`,
+        null,
+        {
+          headers,
+        },
+      )
+      .pipe(catchError((error) => throwError(() => error.error.message)));
   }
 }

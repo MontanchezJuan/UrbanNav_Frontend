@@ -7,7 +7,7 @@ interface Route {
 }
 
 @Component({
-  selector: 'app-layout-page',
+  selector: 'home-layout-page',
   templateUrl: './layout-page.component.html',
 })
 export class LayoutPageComponent {

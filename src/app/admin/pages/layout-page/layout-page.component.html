@@ -1,1 +1,24 @@
-<p>layout-page works!</p>
+<div class="flex h-16 items-center justify-center bg-black text-white">
+  <div
+    class="flex w-full max-w-[1600px] items-center justify-between px-6 md:px-12"
+  >
+    <shared-logo [url]="'home'"></shared-logo>
+
+    <shared-logout></shared-logout>
+  </div>
+</div>
+
+<div class="flex h-full w-full">
+  <div class="h-full w-[200px] bg-black">
+    <p
+      *ngFor="let route of routes"
+      [routerLink]="route.routerLink"
+      routerLinkActive="active"
+      class="m-2 cursor-pointer rounded-lg bg-gray p-2 text-black hover:text-zinc-400"
+    >
+      {{ route.name | titlecase }}
+    </p>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

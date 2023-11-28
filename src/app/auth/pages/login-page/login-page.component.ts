@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth.service';
 import { ValidatorsService } from '../../../shared/services/validators.service';
 
 @Component({
-  selector: 'app-login-page',
+  selector: 'auth-login-page',
   templateUrl: './login-page.component.html',
   styles: ``,
 })
@@ -92,6 +92,8 @@ export class LoginPageComponent {
         });
       },
       error: (message) => {
+        this.isLoading = false;
+
         Swal.fire({
           color: '#0F0F0F',
           confirmButtonColor: '#0F0F0F',

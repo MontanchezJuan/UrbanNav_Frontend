@@ -51,19 +51,17 @@ export class SelectRolePageComponent {
         }
 
         this.userService.matchRole(id_role).subscribe({
-          next: () =>
+          next: (response) =>
             Swal.fire({
               color: '#0F0F0F',
               confirmButtonColor: '#0F0F0F',
               icon: 'success',
               iconColor: '#0F0F0F',
-              title: 'Todo correcto',
-            }).then((result) => {
-              if (result.isConfirmed) {
-                this.router.navigateByUrl('profile/costumize-profile');
+              title: `${response.message}`,
+            }).then(() => {
+              this.router.navigateByUrl('profile/costumize-profile');
 
-                this.isLoading = false;
-              }
+              this.isLoading = false;
             }),
           error: (message) => {
             Swal.fire({

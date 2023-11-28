@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
-import { Response } from '../../../auth/interfaces/auth.interface';
+import { Response, User } from '../../../auth/interfaces/auth.interface';
 
 @Component({
-  selector: 'app-layout-page',
+  selector: 'costumer-layout-page',
   templateUrl: './layout-page.component.html',
   styles: ``,
 })
@@ -14,7 +14,7 @@ export class LayoutPageComponent {
     private router: Router,
   ) {}
 
-  get user(): Response | undefined {
+  get user(): User | undefined {
     return this.authService.currentUser;
   }
 

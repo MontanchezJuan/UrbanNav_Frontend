@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import gsap from 'gsap';
 
 @Component({
-  selector: 'app-home-page',
+  selector: 'home-home-page',
   templateUrl: './home-page.component.html',
 })
 export class HomePageComponent implements OnInit {

@@ -30,14 +30,29 @@ export class AuthService {
       .post<DataToken>(`${this.baseUrl}/security/login`, data)
       .pipe(
         tap((response) => localStorage.setItem('token', response.data)),
-        catchError((error) => throwError(() => error.message)),
+        catchError((error) => throwError(() => error.error.message)),
       );
   }
 
   signup(data: DataLogin): Observable<DataSingup> {
     return this.http
       .post<DataSingup>(`${this.baseUrl}/security/sign-up`, data)
-      .pipe(catchError((error) => throwError(() => error.message)));
+      .pipe(catchError((error) => throwError(() => error.error.message)));
+  }
+
+  getUser(): Observable<Response> {
+    if (!localStorage.getItem('token')) return of();
+
+    const headers = this.getHeaders();
+
+    return this.http
+      .get<Response>(`${this.baseUrl}/security/get-user`, {
+        headers,
+      })
+      .pipe(
+        tap((response) => (this.user = response.data)),
+        catchError((error) => throwError(() => error.error.message)),
+      );
   }
 
   getHeaders(): HttpHeaders {
@@ -45,8 +60,6 @@ export class AuthService {
 
     return new HttpHeaders({
       Authorization: `Bearer ${token}`,
-      // 'Access-Control-Allow-Origin': 'http://localhost:4200',
-      // 'Access-Control-Allow-Credentials': 'true',
     });
   }
 
@@ -62,12 +75,12 @@ export class AuthService {
       .pipe(
         tap((response) => (this.user = response.data)),
         map((user) => !!user),
-        catchError((error) => throwError(() => error.message)),
+        catchError((error) => throwError(() => error.error.message)),
       );
   }
 
   redirectToAccount(): string {
-    if (!this.user) return '';
+    if (!this.user) return 'home';
 
     if (this.user.role.name === 'default') return 'profile';
 
