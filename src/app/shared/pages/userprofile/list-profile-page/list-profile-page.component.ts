@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { UserProfileService } from '../../../services/ms-security/user-profile.service';
+import { SwalService } from '../../../services/swal.service';
+
 import { UserProfile } from '../../../interfaces/ms-security/users-profile.interface';
 
 @Component({
@@ -18,6 +20,7 @@ export class ListProfilePageComponent implements OnInit {
   constructor(
     private router: Router,
     private userProfileService: UserProfileService,
+    private swalService: SwalService,
   ) {}
 
   ngOnInit(): void {
@@ -35,14 +38,7 @@ export class ListProfilePageComponent implements OnInit {
       error: (message) => {
         this.isLoading = false;
 
-        Swal.fire({
-          color: '#0F0F0F',
-          confirmButtonColor: '#0F0F0F',
-          icon: 'error',
-          iconColor: '#0F0F0F',
-          title: 'Error',
-          text: message,
-        });
+        this.swalService.error(message);
       },
     });
   }
@@ -78,14 +74,7 @@ export class ListProfilePageComponent implements OnInit {
           error: (message) => {
             this.isLoading = false;
 
-            Swal.fire({
-              color: '#0F0F0F',
-              confirmButtonColor: '#0F0F0F',
-              icon: 'error',
-              iconColor: '#0F0F0F',
-              title: 'Error',
-              text: message,
-            });
+            this.swalService.error(message);
           },
         });
       }

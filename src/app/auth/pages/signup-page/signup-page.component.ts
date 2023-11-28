@@ -10,7 +10,9 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { AuthService } from '../../services/auth.service';
+import { SwalService } from '../../../shared/services/swal.service';
 import { ValidatorsService } from '../../../shared/services/validators.service';
+
 import { DataLogin } from '../../interfaces/auth.interface';
 
 @Component({
@@ -45,6 +47,7 @@ export class SignupPageComponent {
     private fb: FormBuilder,
     private router: Router,
     private validatorsService: ValidatorsService,
+    private swalService: SwalService,
   ) {}
 
   changeTypePassword(): void {
@@ -112,14 +115,7 @@ export class SignupPageComponent {
       error: (message) => {
         this.isLoading = false;
 
-        Swal.fire({
-          color: '#0F0F0F',
-          confirmButtonColor: '#0F0F0F',
-          icon: 'error',
-          iconColor: '#0F0F0F',
-          title: 'Error',
-          text: message,
-        });
+        this.swalService.error(message);
       },
     });
   }

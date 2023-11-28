@@ -29,13 +29,13 @@ export class UserProfileService {
     return structuredClone(this.userProfile);
   }
 
-  index(): Observable<any> {
-    if (!localStorage.getItem('token')) return of(false);
+  index(): Observable<Response> {
+    if (!localStorage.getItem('token')) return of();
 
     const headers = this.authService.getHeaders();
 
     return this.http
-      .get<any>(`${this.ms_security}/profiles`, { headers })
+      .get<Response>(`${this.ms_security}/profiles`, { headers })
       .pipe(catchError((error) => throwError(() => error.error.message)));
   }
 
@@ -51,42 +51,36 @@ export class UserProfileService {
       .pipe(catchError((error) => throwError(() => error.error.message)));
   }
 
-  store(data: DataUserProfile): Observable<any> {
-    if (!localStorage.getItem('token')) return of(false);
+  store(data: DataUserProfile): Observable<ResponseOne> {
+    if (!localStorage.getItem('token')) return of();
 
     const headers = this.authService.getHeaders();
 
     return this.http
-      .post<any>(`${this.ms_security}/profiles`, data, { headers })
+      .post<ResponseOne>(`${this.ms_security}/profiles`, data, { headers })
       .pipe(
         tap((response) => (this.userProfile = response.data)),
         catchError((error) => throwError(() => error.error.message)),
       );
   }
 
-  update(data: DataUserProfile, id: string): Observable<any> {
-    if (!localStorage.getItem('token')) return of(false);
+  update(data: DataUserProfile, id: string): Observable<ResponseOne> {
+    if (!localStorage.getItem('token')) return of();
 
     const headers = this.authService.getHeaders();
 
     return this.http
-      .put<any>(`${this.ms_security}/profiles/${id}`, data, { headers })
-      .pipe(
-        tap((response) => (this.userProfile = response.data)),
-        catchError((error) => throwError(() => error.error.message)),
-      );
+      .put<ResponseOne>(`${this.ms_security}/profiles/${id}`, data, { headers })
+      .pipe(catchError((error) => throwError(() => error.error.message)));
   }
 
-  destroy(id: string): Observable<any> {
-    if (!localStorage.getItem('token')) return of(false);
+  destroy(id: string): Observable<ResponseOne> {
+    if (!localStorage.getItem('token')) return of();
 
     const headers = this.authService.getHeaders();
 
     return this.http
-      .delete<any>(`${this.ms_security}/profiles/${id}`, { headers })
-      .pipe(
-        tap((response) => (this.userProfile = response.data)),
-        catchError((error) => throwError(() => error.error.message)),
-      );
+      .delete<ResponseOne>(`${this.ms_security}/profiles/${id}`, { headers })
+      .pipe(catchError((error) => throwError(() => error.error.message)));
   }
 }

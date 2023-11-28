@@ -10,10 +10,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { AuthService } from '../../../../auth/services/auth.service';
-import { DataUserProfile } from '../../../interfaces/ms-security/users-profile.interface';
 import { UserProfileService } from '../../../services/ms-security/user-profile.service';
 import { UserService } from '../../../services/ms-security/user.service';
+import { SwalService } from '../../../services/swal.service';
 import { ValidatorsService } from '../../../services/validators.service';
+
+import { DataUserProfile } from '../../../interfaces/ms-security/users-profile.interface';
 
 interface Color {
   name: string;
@@ -55,6 +57,7 @@ export class CreateProfilePageComponent implements OnInit {
     private userService: UserService,
     private userProfileService: UserProfileService,
     private validatorsService: ValidatorsService,
+    private swalService: SwalService,
   ) {
     this.max = this.currentDate();
   }
@@ -74,13 +77,8 @@ export class CreateProfilePageComponent implements OnInit {
             this.form.get('birthday')!.setValue(response.data.birthday);
           },
           error: (message) => {
-            Swal.fire({
-              color: '#0F0F0F',
-              confirmButtonColor: '#0F0F0F',
-              icon: 'error',
-              iconColor: '#0F0F0F',
-              title: 'Error',
-              text: message,
+            this.swalService.error(message).then(() => {
+              this.goBack();
             });
           },
         });
@@ -180,14 +178,7 @@ export class CreateProfilePageComponent implements OnInit {
       error: (message) => {
         this.isLoading = false;
 
-        Swal.fire({
-          color: '#0F0F0F',
-          confirmButtonColor: '#0F0F0F',
-          icon: 'error',
-          iconColor: '#0F0F0F',
-          title: 'Error',
-          text: message,
-        });
+        this.swalService.error(message);
       },
     });
   }

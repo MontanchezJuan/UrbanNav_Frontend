@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import Swal from 'sweetalert2';
 
+import { AuthService } from '../../../auth/services/auth.service';
 import { UserService } from '../../../shared/services/ms-security/user.service';
 
 type Role = 'cliente' | 'conductor';
@@ -16,6 +17,7 @@ export class SelectRolePageComponent {
   public isLoading: boolean = false;
 
   constructor(
+    private authService: AuthService,
     private router: Router,
     private userService: UserService,
   ) {}
@@ -50,7 +52,9 @@ export class SelectRolePageComponent {
             break;
         }
 
-        this.userService.matchRole(id_role).subscribe({
+        const user = this.authService.currentUser;
+
+        this.userService.matchRole(user._id, id_role).subscribe({
           next: (response) =>
             Swal.fire({
               color: '#0F0F0F',

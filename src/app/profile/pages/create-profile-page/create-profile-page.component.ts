@@ -10,10 +10,12 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { AuthService } from '../../../auth/services/auth.service';
-import { DataUserProfile } from '../../../shared/interfaces/ms-security/users-profile.interface';
 import { UserProfileService } from '../../../shared/services/ms-security/user-profile.service';
 import { UserService } from '../../../shared/services/ms-security/user.service';
+import { SwalService } from '../../../shared/services/swal.service';
 import { ValidatorsService } from '../../../shared/services/validators.service';
+
+import { DataUserProfile } from '../../../shared/interfaces/ms-security/users-profile.interface';
 
 interface Color {
   name: string;
@@ -53,6 +55,7 @@ export class CreateProfilePageComponent {
     private userService: UserService,
     private userProfileService: UserProfileService,
     private validatorsService: ValidatorsService,
+    private swalService: SwalService,
   ) {
     this.max = this.currentDate();
   }
@@ -141,8 +144,6 @@ export class CreateProfilePageComponent {
                 next: () => {
                   const redirectTo = this.authService.redirectToAccount();
 
-                  console.log(redirectTo);
-
                   this.router.navigateByUrl(redirectTo);
 
                   this.isLoading = false;
@@ -157,26 +158,12 @@ export class CreateProfilePageComponent {
                   });
                 },
                 error: (message) => {
-                  Swal.fire({
-                    color: '#0F0F0F',
-                    confirmButtonColor: '#0F0F0F',
-                    icon: 'error',
-                    iconColor: '#0F0F0F',
-                    title: 'Error',
-                    text: message,
-                  });
+                  this.swalService.error(message);
                 },
               });
             },
             error: (message) => {
-              Swal.fire({
-                color: '#0F0F0F',
-                confirmButtonColor: '#0F0F0F',
-                icon: 'error',
-                iconColor: '#0F0F0F',
-                title: 'Error',
-                text: message,
-              });
+              this.swalService.error(message);
             },
           });
         });
@@ -184,14 +171,7 @@ export class CreateProfilePageComponent {
       error: (message) => {
         this.isLoading = false;
 
-        Swal.fire({
-          color: '#0F0F0F',
-          confirmButtonColor: '#0F0F0F',
-          icon: 'error',
-          iconColor: '#0F0F0F',
-          title: 'Error',
-          text: message,
-        });
+        this.swalService.error(message);
       },
     });
   }

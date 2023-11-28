@@ -721,6 +721,10 @@ p {
   width: 90vw;
 }
 
+.w-\[calc\(100vw_-_200px\)\] {
+  width: calc(100vw - 200px);
+}
+
 .w-full {
   width: 100%;
 }

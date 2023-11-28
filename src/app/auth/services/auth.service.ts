@@ -2,19 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environments } from '../../../environments/environments';
 import {
+  AuthResponse,
   DataLogin,
-  DataSingup,
   DataToken,
-  Response,
-  User,
 } from '../interfaces/auth.interface';
+import { User } from '../../shared/interfaces/ms-security/users.interface';
 import { Observable, tap, of, catchError, map, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = environments.ms_security;
+  private ms_security = environments.ms_security;
   private user?: User | null;
 
   constructor(private http: HttpClient) {}
@@ -27,26 +26,26 @@ export class AuthService {
 
   login(data: DataLogin): Observable<DataToken> {
     return this.http
-      .post<DataToken>(`${this.baseUrl}/security/login`, data)
+      .post<DataToken>(`${this.ms_security}/security/login`, data)
       .pipe(
         tap((response) => localStorage.setItem('token', response.data)),
         catchError((error) => throwError(() => error.error.message)),
       );
   }
 
-  signup(data: DataLogin): Observable<DataSingup> {
+  signup(data: DataLogin): Observable<AuthResponse> {
     return this.http
-      .post<DataSingup>(`${this.baseUrl}/security/sign-up`, data)
+      .post<AuthResponse>(`${this.ms_security}/security/sign-up`, data)
       .pipe(catchError((error) => throwError(() => error.error.message)));
   }
 
-  getUser(): Observable<Response> {
+  getUser(): Observable<AuthResponse> {
     if (!localStorage.getItem('token')) return of();
 
     const headers = this.getHeaders();
 
     return this.http
-      .get<Response>(`${this.baseUrl}/security/get-user`, {
+      .get<AuthResponse>(`${this.ms_security}/security/get-user`, {
         headers,
       })
       .pipe(
@@ -69,7 +68,7 @@ export class AuthService {
     const headers = this.getHeaders();
 
     return this.http
-      .get<Response>(`${this.baseUrl}/security/get-user`, {
+      .get<AuthResponse>(`${this.ms_security}/security/get-user`, {
         headers,
       })
       .pipe(

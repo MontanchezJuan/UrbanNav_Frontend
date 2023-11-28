@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
-import { Response, User } from '../../../auth/interfaces/auth.interface';
+
+import { AuthService } from '../../../auth/services/auth.service';
+import { User } from '../../../shared/interfaces/ms-security/users.interface';
 
 @Component({
   selector: 'costumer-layout-page',

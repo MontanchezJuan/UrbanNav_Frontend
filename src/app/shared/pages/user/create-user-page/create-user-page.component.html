@@ -1,0 +1,96 @@
+<shared-loading-spinner *ngIf="isLoading"></shared-loading-spinner>
+
+<div class="flex flex-col">
+  <button (click)="goBack()" class="button-black ml-8 mt-4">volver</button>
+
+  <div class="my-4 flex h-full w-[calc(100vw_-_200px)] justify-center">
+    <div class="flex flex-col gap-5">
+      <div class="flex justify-center">
+        <h1 *ngIf="createMode; else editMode" class="text-4xl font-bold">
+          Crear Usuario
+        </h1>
+
+        <ng-template #editMode>
+          <h1 class="text-4xl font-bold">Editar Usuario</h1>
+        </ng-template>
+      </div>
+
+      <form [formGroup]="form" class="flex h-full flex-col gap-4">
+        <input
+          class="input"
+          formControlName="email"
+          name="email"
+          placeholder="Email"
+          type="email"
+        />
+
+        <span *ngIf="isValidField('email')" class="text-red-600">{{
+          getFieldError('email')
+        }}</span>
+
+        <input
+          class="input"
+          formControlName="password"
+          name="password"
+          placeholder="Contraseña"
+          type="text"
+        />
+
+        <span *ngIf="isValidField('password')" class="text-red-600">{{
+          getFieldError('password')
+        }}</span>
+
+        <!-- <select class="input" formControlName="status" name="status">
+          <option value="">-- Seleccione el estado --</option>
+          <option *ngFor="let state of status" [value]="state.value">
+            {{ state.name }}
+          </option>
+        </select>
+
+        <span *ngIf="isValidField('status')" class="text-red-600">{{
+          getFieldError('status')
+        }}</span> -->
+
+        <select class="input" formControlName="role" name="role">
+          <option value="">-- Seleccione un rol --</option>
+          <option *ngFor="let role of roles" [value]="role._id">
+            {{ role.name }}
+          </option>
+        </select>
+
+        <span *ngIf="isValidField('role')" class="text-red-600">{{
+          getFieldError('role')
+        }}</span>
+
+        <select class="input" formControlName="userProfile" name="userProfile">
+          <option value="">-- Seleccione un perfil --</option>
+          <option
+            *ngFor="let userProfile of userProfiles"
+            [value]="userProfile._id"
+          >
+            {{ userProfile.name }}
+          </option>
+        </select>
+
+        <span *ngIf="isValidField('userProfile')" class="text-red-600">{{
+          getFieldError('userProfile')
+        }}</span>
+
+        <button
+          *ngIf="createMode; else editbuttonMode"
+          (click)="onCreate()"
+          class="button-black"
+          type="submit"
+        >
+          Crear Usuario
+        </button>
+
+        <ng-template #editbuttonMode>
+          <button (click)="onUpdate()" type="submit" class="button-black">
+            Editar Usuario
+          </button>
+        </ng-template>
+      </form>
+    </div>
+  </div>
+</div>
