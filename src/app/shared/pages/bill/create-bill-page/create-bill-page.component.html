@@ -1,1 +1,102 @@
-<p>create-bill-page works!</p>
+<shared-loading-spinner *ngIf="isLoading"></shared-loading-spinner>
+
+<div class="flex flex-col">
+  <button (click)="goBack()" class="button-black ml-8 mt-4">volver</button>
+
+  <div
+    class="my-4 flex h-full w-[calc(100vw_-_200px)] flex-col-reverse justify-evenly md:flex-row"
+  >
+    <div class="flex flex-col gap-5">
+      <div class="flex justify-center">
+        <h1 *ngIf="createMode; else editMode" class="text-4xl font-bold">
+          Crear factura
+        </h1>
+
+        <ng-template #editMode>
+          <h1 class="text-4xl font-bold">Editar factura</h1>
+        </ng-template>
+      </div>
+
+      <form [formGroup]="form" class="flex h-full flex-col gap-4">
+        <input
+          class="input"
+          formControlName="name"
+          name="name"
+          placeholder="Nombre"
+          type="text"
+        />
+
+        <span *ngIf="isValidField('name')" class="text-red-600">{{
+          getFieldError('name')
+        }}</span>
+
+        <input
+          class="input"
+          formControlName="lastName"
+          name="lastName"
+          placeholder="Apellido"
+          type="text"
+        />
+
+        <span *ngIf="isValidField('lastName')" class="text-red-600">{{
+          getFieldError('lastName')
+        }}</span>
+
+        <input
+          class="input"
+          formControlName="profilePhoto"
+          name="profilePhoto"
+          placeholder="Foto de perfil"
+          type="text"
+          #txtInput
+        />
+
+        <span *ngIf="isValidField('profilePhoto')" class="text-red-600">{{
+          getFieldError('profilePhoto')
+        }}</span>
+
+        <label for="date"> Fecha de cumpleaños </label>
+
+        <input
+          id="date"
+          class="input"
+          formControlName="birthday"
+          name="birthday"
+          type="date"
+        />
+
+        <span *ngIf="isValidField('birthday')" class="text-red-600">{{
+          getFieldError('birthday')
+        }}</span>
+
+        <input
+          class="input"
+          formControlName="numberPhone"
+          name="numberPhone"
+          placeholder="Telefono"
+          type="tel"
+        />
+
+        <span *ngIf="isValidField('numberPhone')" class="text-red-600">{{
+          getFieldError('numberPhone')
+        }}</span>
+
+        <button
+          *ngIf="createMode; else editbuttonMode"
+          (click)="onCreate()"
+          class="button-black"
+          type="submit"
+        >
+          Crear perfil
+        </button>
+
+        <ng-template #editbuttonMode>
+          <button (click)="onUpdate()" type="submit" class="button-black">
+            Editar perfil
+          </button>
+        </ng-template>
+      </form>
+    </div>
+
+  </div>
+</div>
