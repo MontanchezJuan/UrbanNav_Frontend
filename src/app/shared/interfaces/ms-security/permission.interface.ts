@@ -6,7 +6,6 @@ export interface Permission {
   status: number;
 }
 export interface DataPermission {
-  _id: string;
   route: string;
   method: string;
   description: string;

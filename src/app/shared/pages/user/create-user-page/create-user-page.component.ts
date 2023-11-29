@@ -24,10 +24,10 @@ import {
 } from '../../../interfaces/ms-security/users.interface';
 import { UserProfile } from '../../../interfaces/ms-security/users-profile.interface';
 
-interface Status {
-  name: string;
-  value: number;
-}
+// interface Status {
+//   name: string;
+//   value: number;
+// }
 
 @Component({
   selector: 'shared-create-user-page',
@@ -37,11 +37,11 @@ interface Status {
 export class CreateUserPageComponent implements OnInit {
   public isLoading: boolean = false;
   public createMode: boolean = true;
-  public status: Status[] = [
-    { name: 'creado', value: 0 },
-    { name: 'eliminado', value: 1 },
-    { name: 'bloqueado', value: 2 },
-  ];
+  // public status: Status[] = [
+  //   { name: 'creado', value: 0 },
+  //   { name: 'eliminado', value: 1 },
+  //   { name: 'bloqueado', value: 2 },
+  // ];
   public roles: Role[] = [];
   public creditCards: CreditCard[] = [];
   public userProfiles: UserProfile[] = [];
@@ -158,9 +158,15 @@ export class CreateUserPageComponent implements OnInit {
     const data: UserData = {
       email: this.form.controls['email'].value,
       password: this.form.controls['password'].value,
-      role: this.form.controls['role'].value,
-      creditCards: this.form.controls['creditCards'].value,
-      userProfile: this.form.controls['userProfile'].value,
+      role: this.roles.find(
+        (role) => role._id === this.form.controls['role'].value,
+      ),
+      creditCards: this.creditCards.find(
+        (card) => card._id === this.form.controls['creditCards'].value,
+      ),
+      userProfile: this.userProfiles.find(
+        (profile) => profile._id === this.form.controls['userProfile'].value,
+      ),
       status: 0,
     };
 
@@ -174,6 +180,50 @@ export class CreateUserPageComponent implements OnInit {
           title: `${response.message}`,
         }).then(() => {
           this.isLoading = false;
+          if (data.role) {
+            this.isLoading = true;
+            this.userService
+              .matchRole(response.data._id, data.role._id)
+              .subscribe({
+                next: (response) => {
+                  Swal.fire({
+                    color: '#0F0F0F',
+                    confirmButtonColor: '#0F0F0F',
+                    icon: 'success',
+                    iconColor: '#0F0F0F',
+                    title: `${response.message}`,
+                  });
+                },
+                error: (message) => {
+                  this.isLoading = false;
+
+                  this.swalService.error(message);
+                },
+              });
+            this.isLoading = false;
+          }
+          if (data.userProfile) {
+            this.isLoading = true;
+            this.userService
+              .matchUserProfile(data.userProfile._id, response.data._id)
+              .subscribe({
+                next: (response) => {
+                  Swal.fire({
+                    color: '#0F0F0F',
+                    confirmButtonColor: '#0F0F0F',
+                    icon: 'success',
+                    iconColor: '#0F0F0F',
+                    title: `${response.message}`,
+                  });
+                },
+                error: (message) => {
+                  this.isLoading = false;
+
+                  this.swalService.error(message);
+                },
+              });
+            this.isLoading = false;
+          }
 
           this.goBack();
 
@@ -202,13 +252,18 @@ export class CreateUserPageComponent implements OnInit {
     }
 
     this.isLoading = true;
-
     const data: UserData = {
       email: this.form.controls['email'].value,
       password: this.form.controls['password'].value,
-      role: this.form.controls['role'].value,
-      creditCards: this.form.controls['creditCards'].value,
-      userProfile: this.form.controls['userProfile'].value,
+      role: this.roles.find(
+        (role) => role._id === this.form.controls['role'].value,
+      ),
+      creditCards: this.creditCards.find(
+        (card) => card._id === this.form.controls['creditCards'].value,
+      ),
+      userProfile: this.userProfiles.find(
+        (profile) => profile._id === this.form.controls['userProfile'].value,
+      ),
       status: 0,
     };
 
@@ -224,6 +279,53 @@ export class CreateUserPageComponent implements OnInit {
             title: `${response.message}`,
           }).then(() => {
             this.isLoading = false;
+            if (data.role && data.role._id != response.data.role._id) {
+              this.isLoading = true;
+              this.userService
+                .matchRole(response.data._id, data.role._id)
+                .subscribe({
+                  next: (response) => {
+                    Swal.fire({
+                      color: '#0F0F0F',
+                      confirmButtonColor: '#0F0F0F',
+                      icon: 'success',
+                      iconColor: '#0F0F0F',
+                      title: `${response.message}`,
+                    });
+                  },
+                  error: (message) => {
+                    this.isLoading = false;
+
+                    this.swalService.error(message);
+                  },
+                });
+              this.isLoading = false;
+            }
+            if (
+              data.userProfile &&
+              data.userProfile._id != response.data.userProfile?._id
+            ) {
+              this.isLoading = true;
+              this.userService
+                .matchUserProfile(data.userProfile._id, response.data._id)
+                .subscribe({
+                  next: (response) => {
+                    Swal.fire({
+                      color: '#0F0F0F',
+                      confirmButtonColor: '#0F0F0F',
+                      icon: 'success',
+                      iconColor: '#0F0F0F',
+                      title: `${response.message}`,
+                    });
+                  },
+                  error: (message) => {
+                    this.isLoading = false;
+
+                    this.swalService.error(message);
+                  },
+                });
+              this.isLoading = false;
+            }
 
             this.goBack();
 

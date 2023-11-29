@@ -6,7 +6,7 @@ import { Observable, catchError, of, throwError } from 'rxjs';
 import {  BillData, BillResponse,BillResponseOne } from '../../interfaces/ms-business/bill.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BillService {
   private ms_bussines = environments.ms_business;

@@ -3,8 +3,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-create-customer-page',
   templateUrl: './create-customer-page.component.html',
-  styles: ``
+  styles: ``,
 })
-export class CreateCustomerPageComponent {
-
-}
+export class CreateCustomerPageComponent {}
