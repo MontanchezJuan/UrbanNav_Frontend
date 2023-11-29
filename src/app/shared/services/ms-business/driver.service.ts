@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-import { Observable, catchError, of, throwError } from 'rxjs';
-
+import { environments } from '../../../../environments/environments';
 import { AuthService } from '../../../auth/services/auth.service';
+import { HttpClient } from '@angular/common/http';
 import {
   DriverResponse,
   DriverResponseOne,
+  DriverData,
 } from '../../interfaces/ms-business/drivers.interface';
-import { environments } from '../../../../environments/environments';
+import { Observable, catchError, of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -27,43 +26,43 @@ export class DriverService {
     const headers = this.authService.getHeaders();
 
     return this.http
-      .get<DriverResponse>(`${this.ms_business}/customers`, {
+      .get<DriverResponse>(`${this.ms_business}/drivers`, {
         headers,
       })
-      .pipe(catchError((error) => throwError(() => error.error.message)));
+      .pipe(catchError((error) => throwError(() => error)));
   }
 
-  show(id: string): Observable<DriverResponseOne> {
+  show(id: number): Observable<DriverResponseOne> {
     if (!localStorage.getItem('token')) return of();
 
     const headers = this.authService.getHeaders();
 
     return this.http
-      .get<DriverResponseOne>(`${this.ms_business}/customers/${id}`, {
+      .get<DriverResponseOne>(`${this.ms_business}/drivers/${id}`, {
         headers,
       })
       .pipe(catchError((error) => throwError(() => error.error.message)));
   }
 
-  store(data: any): Observable<DriverResponseOne> {
+  store(data: DriverData): Observable<DriverResponse> {
     if (!localStorage.getItem('token')) return of();
 
     const headers = this.authService.getHeaders();
 
     return this.http
-      .post<DriverResponseOne>(`${this.ms_business}/customers`, data, {
+      .post<DriverResponse>(`${this.ms_business}/drivers`, data, {
         headers,
       })
       .pipe(catchError((error) => throwError(() => error.error.message)));
   }
 
-  update(data: any, id: string): Observable<DriverResponseOne> {
+  update(data: DriverData, id: number): Observable<DriverResponseOne> {
     if (!localStorage.getItem('token')) return of();
 
     const headers = this.authService.getHeaders();
 
     return this.http
-      .put<DriverResponseOne>(`${this.ms_business}/customers/${id}`, data, {
+      .put<DriverResponseOne>(`${this.ms_business}/drivers/${id}`, data, {
         headers,
       })
       .pipe(catchError((error) => throwError(() => error.error.message)));
@@ -75,7 +74,7 @@ export class DriverService {
     const headers = this.authService.getHeaders();
 
     return this.http
-      .delete<DriverResponseOne>(`${this.ms_business}/customers/${id}`, {
+      .delete<DriverResponseOne>(`${this.ms_business}/drivers/${id}`, {
         headers,
       })
       .pipe(catchError((error) => throwError(() => error.error.message)));

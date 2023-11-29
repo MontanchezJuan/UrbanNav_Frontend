@@ -43,43 +43,43 @@ export class ListVehiclePageComponent implements OnInit {
     });
   }
 
-  // onDelete(id: string): void {
-  //   Swal.fire({
-  //     cancelButtonColor: '#B2B2B2',
-  //     cancelButtonText: 'No, cancelar',
-  //     color: '#0F0F0F',
-  //     confirmButtonColor: '#0F0F0F',
-  //     confirmButtonText: 'Si, estoy seguro',
-  //     icon: 'info',
-  //     iconColor: '#0F0F0F',
-  //     showCancelButton: true,
-  //     text: `Deseas eliminar el perfil con id ${id}`,
-  //     title: '¿Estás seguro?',
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       this.vehicleService.destroy(id).subscribe({
-  //         next: (response) => {
-  //           this.isLoading = false;
+  onDelete(id: number): void {
+    Swal.fire({
+      cancelButtonColor: '#B2B2B2',
+      cancelButtonText: 'No, cancelar',
+      color: '#0F0F0F',
+      confirmButtonColor: '#0F0F0F',
+      confirmButtonText: 'Si, estoy seguro',
+      icon: 'info',
+      iconColor: '#0F0F0F',
+      showCancelButton: true,
+      text: `Deseas eliminar el perfil con id ${id}`,
+      title: '¿Estás seguro?',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.vehicleService.destroy(id).subscribe({
+          next: (response) => {
+            this.isLoading = false;
 
-  //           this.listUserProfiles();
+            this.listVehicles();
 
-  //           Swal.fire({
-  //             color: '#0F0F0F',
-  //             confirmButtonColor: '#0F0F0F',
-  //             icon: 'success',
-  //             iconColor: '#0F0F0F',
-  //             title: `${response.message}`,
-  //           });
-  //         },
-  //         error: (message) => {
-  //           this.isLoading = false;
+            Swal.fire({
+              color: '#0F0F0F',
+              confirmButtonColor: '#0F0F0F',
+              icon: 'success',
+              iconColor: '#0F0F0F',
+              title: `${response.mensaje}`,
+            });
+          },
+          error: (message) => {
+            this.isLoading = false;
 
-  //           this.swalService.error(message);
-  //         },
-  //       });
-  //     }
-  //   });
-  // }
+            this.swalService.error(message);
+          },
+        });
+      }
+    });
+  }
 
   navegateTo(path: string): void {
     this.router.navigateByUrl(`${path}`);
