@@ -1,1 +1,52 @@
-<p>create-driver-page works!</p>
+<shared-loading-spinner *ngIf="isLoading"></shared-loading-spinner>
+
+<div class="flex flex-col">
+  <button (click)="goBack()" class="button-black ml-8 mt-4">volver</button>
+
+  <div class="my-4 flex h-full w-[calc(100vw_-_200px)] justify-center">
+    <div class="flex flex-col gap-5">
+      <div class="flex justify-center">
+        <h1 *ngIf="createMode; else editMode" class="text-4xl font-bold">
+          Crear Conductor
+        </h1>
+
+        <ng-template #editMode>
+          <h1 class="text-4xl font-bold">Editar Conductor</h1>
+        </ng-template>
+      </div>
+
+      <form [formGroup]="form" class="flex h-full flex-col gap-4">
+        <select
+          class="input"
+          formControlName="user_id"
+          name="user_id"
+          [disabled]="true"
+        >
+          <option value="">-- Seleccione el usuario --</option>
+          <option *ngFor="let user of users" [value]="user._id">
+            {{ user.email }}
+          </option>
+        </select>
+
+        <span *ngIf="isValidField('user_id')" class="text-red-600">{{
+          getFieldError('user_id')
+        }}</span>
+
+        <button
+          *ngIf="createMode; else editbuttonMode"
+          (click)="onCreate()"
+          class="button-black"
+          type="submit"
+        >
+          Crear Conductor
+        </button>
+
+        <ng-template #editbuttonMode>
+          <button (click)="onUpdate()" type="submit" class="button-black">
+            Editar Conductor
+          </button>
+        </ng-template>
+      </form>
+    </div>
+  </div>
+</div>

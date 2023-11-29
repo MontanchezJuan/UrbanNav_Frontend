@@ -13,29 +13,19 @@
   </button>
 
   <ul>
-    <li
-      class="mx-8 my-4 flex justify-between"
-      *ngFor="let vehicle of vehicles"
-    >
+    <li class="mx-8 my-4 flex justify-between" *ngFor="let vehicle of vehicles">
       <div class="flex gap-8">
         <p>
           {{ vehicle.id }}
         </p>
-        <!-- <p>
+
+        <p>
           {{ vehicle.license_plate }}
-        </p> -->
-        <!-- <p>
+        </p>
+
+        <p>
           {{ vehicle.model }}
         </p>
-        <p>
-          {{ vehicle.capacity }}
-        </p>
-        <p>
-          {{ vehicle.color }}
-        </p>
-        <p>
-          {{ vehicle.velocity }}
-        </p> -->
       </div>
 
       <div class="flex gap-8">
@@ -46,9 +36,9 @@
           actualizar
         </button>
 
-        <!-- <button (click)="onDelete(vehicle.id)" class="button-black">
+        <button (click)="onDelete(vehicle.id)" class="button-black">
           eliminar
-        </button> -->
+        </button>
       </div>
     </li>
   </ul>

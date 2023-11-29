@@ -13,26 +13,19 @@
   </button>
 
   <ul>
-    <li
-      class="mx-8 my-4 flex justify-between"
-      *ngFor="let license of licenses"
-    >
+    <li class="mx-8 my-4 flex justify-between" *ngFor="let license of licenses">
       <div class="flex gap-8">
         <p>
           {{ license.id }}
         </p>
 
-        <!-- <p>
-          {{ license.expiration_date }}
+        <p>
+          {{ license.description }}
         </p>
 
         <p>
-            {{ license.description }}
+          {{ license.type }}
         </p>
-
-        <p>
-            {{ license.type }}
-        </p> -->
       </div>
 
       <div class="flex gap-8">

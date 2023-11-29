@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Bill } from '../../../interfaces/ms-business/bill.interface'
+import { Bill } from '../../../interfaces/ms-business/bill.interface';
 import { Router } from '@angular/router';
 import { BillService } from '../../../services/ms-business/bill.service';
 import { SwalService } from '../../../services/swal.service';
@@ -11,13 +11,13 @@ import Swal from 'sweetalert2';
 })
 export class ListBillPageComponent {
   public isLoading: boolean = false;
-  public bills?: Bill[] = []
+  public bills?: Bill[] = [];
 
   constructor(
     private router: Router,
     private billService: BillService,
-    private swalService: SwalService
-  ){}
+    private swalService: SwalService,
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -27,8 +27,8 @@ export class ListBillPageComponent {
   listBill(): void {
     this.billService.index().subscribe({
       next: (response) => {
-        this.isLoading = false; 
-        
+        this.isLoading = false;
+
         this.bills = response.data.data;
       },
       error: (message) => {
