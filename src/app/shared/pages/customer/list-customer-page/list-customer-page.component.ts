@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 
 import Swal from 'sweetalert2';
 
-import { UserService } from '../../../services/ms-security/user.service';
+import { CustomerService } from '../../../services/ms-business/customer.service';
 import { SwalService } from '../../../services/swal.service';
 
-import { User } from '../../../interfaces/ms-security/users.interface';
+import { Customer } from '../../../interfaces/ms-business/customer.interface';
 
 @Component({
   selector: 'shared-list-customer-page',
@@ -15,25 +15,25 @@ import { User } from '../../../interfaces/ms-security/users.interface';
 })
 export class ListCustomerPageComponent {
   public isLoading: boolean = false;
-  public users?: User[] = [];
+  public customers?: Customer[] = [];
 
   constructor(
     private router: Router,
-    private userService: UserService,
+    private customerService: CustomerService,
     private swalService: SwalService,
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.listUser();
+    this.listCustomers();
   }
 
-  listUser(): void {
-    this.userService.index().subscribe({
+  listCustomers(): void {
+    this.customerService.index().subscribe({
       next: (response) => {
         this.isLoading = false;
 
-        this.users = response.data;
+        this.customers = response.data.data;
       },
       error: (message) => {
         this.isLoading = false;
@@ -43,7 +43,7 @@ export class ListCustomerPageComponent {
     });
   }
 
-  onDelete(id: string): void {
+  onDelete(id: number): void {
     Swal.fire({
       cancelButtonColor: '#B2B2B2',
       cancelButtonText: 'No, cancelar',
@@ -53,22 +53,22 @@ export class ListCustomerPageComponent {
       icon: 'info',
       iconColor: '#0F0F0F',
       showCancelButton: true,
-      text: `Deseas eliminar el usuario con id ${id}`,
+      text: `Deseas eliminar el cliente con id ${id}`,
       title: '¿Estás seguro?',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.userService.destroy(id).subscribe({
+        this.customerService.destroy(id).subscribe({
           next: (response) => {
             this.isLoading = false;
 
-            this.listUser();
+            this.listCustomers();
 
             Swal.fire({
               color: '#0F0F0F',
               confirmButtonColor: '#0F0F0F',
               icon: 'success',
               iconColor: '#0F0F0F',
-              title: `${response.message}`,
+              title: `${response.mensaje}`,
             });
           },
           error: (message) => {
