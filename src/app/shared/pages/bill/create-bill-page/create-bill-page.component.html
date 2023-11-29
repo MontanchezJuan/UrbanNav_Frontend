@@ -18,67 +18,24 @@
       </div>
 
       <form [formGroup]="form" class="flex h-full flex-col gap-4">
-        <input
-          class="input"
-          formControlName="name"
-          name="name"
-          placeholder="Nombre"
-          type="text"
-        />
-
-        <span *ngIf="isValidField('name')" class="text-red-600">{{
-          getFieldError('name')
+        <select class="input" formControlName="service" name="service">
+          <option value="">-- Seleccione un servicio --</option>
+          <option *ngFor="let service of services" [value]="service.id">
+            {{ service.id }}
+          </option>
+        </select>
+        <span *ngIf="isValidField('service')" class="text-red-600">{{
+          getFieldError('service')
         }}</span>
 
-        <input
-          class="input"
-          formControlName="lastName"
-          name="lastName"
-          placeholder="Apellido"
-          type="text"
-        />
-
-        <span *ngIf="isValidField('lastName')" class="text-red-600">{{
-          getFieldError('lastName')
-        }}</span>
-
-        <input
-          class="input"
-          formControlName="profilePhoto"
-          name="profilePhoto"
-          placeholder="Foto de perfil"
-          type="text"
-          #txtInput
-        />
-
-        <span *ngIf="isValidField('profilePhoto')" class="text-red-600">{{
-          getFieldError('profilePhoto')
-        }}</span>
-
-        <label for="date"> Fecha de cumpleaños </label>
-
-        <input
-          id="date"
-          class="input"
-          formControlName="birthday"
-          name="birthday"
-          type="date"
-        />
-
-        <span *ngIf="isValidField('birthday')" class="text-red-600">{{
-          getFieldError('birthday')
-        }}</span>
-
-        <input
-          class="input"
-          formControlName="numberPhone"
-          name="numberPhone"
-          placeholder="Telefono"
-          type="tel"
-        />
-
-        <span *ngIf="isValidField('numberPhone')" class="text-red-600">{{
-          getFieldError('numberPhone')
+        <select class="input" formControlName="card" name="card">
+          <option value="">-- Seleccione una tarjeta de crédito --</option>
+          <option *ngFor="let card of cards" [value]="card._id">
+            {{ card.name }}
+          </option>
+        </select>
+        <span *ngIf="isValidField('card')" class="text-red-600">{{
+          getFieldError('card')
         }}</span>
 
         <button
@@ -87,12 +44,12 @@
           class="button-black"
           type="submit"
         >
-          Crear perfil
+          Crear factura
         </button>
 
         <ng-template #editbuttonMode>
           <button (click)="onUpdate()" type="submit" class="button-black">
-            Editar perfil
+            Editar factura
           </button>
         </ng-template>
       </form>

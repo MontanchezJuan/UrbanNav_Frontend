@@ -14,6 +14,10 @@ import { SwalService } from '../../../services/swal.service';
 import { ValidatorsService } from '../../../services/validators.service';
 import { BillService } from '../../../services/ms-business/bill.service';
 import { Bill, BillData } from '../../../interfaces/ms-business/bill.interface';
+import { CreditCard } from '../../../interfaces/ms-security/credit-card.interface';
+import { CreditCardService } from '../../../services/ms-security/credit-card.service';
+import { ServiceService } from '../../../services/ms-business/service.service';
+import { Service } from '../../../interfaces/ms-business/service.interface';
 
 @Component({
   selector: 'shared-create-bill-page',
@@ -23,24 +27,47 @@ import { Bill, BillData } from '../../../interfaces/ms-business/bill.interface';
 export class CreateBillPageComponent implements OnInit {
   public isLoading: boolean = false;
   public createMode: boolean = true;
-  public services?: any;
-  public creditCards?: any;
+  public services?: Service[] = [];
+  public cards?: CreditCard[] = [];
   public form: FormGroup = this.fb.group({
     service_id: new FormControl('', [Validators.required]),
     credit_card_id: new FormControl('', [Validators.required]),
   });
 
   constructor(
-    private authService: AuthService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private billService: BillService,
+    private serviceService: ServiceService,
+    private cardService: CreditCardService,
     private validatorsService: ValidatorsService,
     private swalService: SwalService,
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
+
+    this.cardService.index().subscribe({
+      next: (response) => {
+        this.cards = response.data;
+        this.isLoading = false;
+      },
+      error: (message) => {
+        this.swalService.error(message);
+      },
+    });
+
+    this.serviceService.index().subscribe({
+      next: (response) => {
+        this.services = response.data.data;
+        this.isLoading = false;
+      },
+      error: (message) => {
+        this.swalService.error(message);
+      },
+    });
+
     if (this.route.snapshot.paramMap.get('id')) {
       this.createMode = false;
 
