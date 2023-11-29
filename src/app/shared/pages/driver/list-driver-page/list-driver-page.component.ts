@@ -35,8 +35,6 @@ export class ListDriverPageComponent {
       error: (message) => {
         this.isLoading = false;
 
-        console.log(message);
-
         this.swalService.error(message);
       },
     });

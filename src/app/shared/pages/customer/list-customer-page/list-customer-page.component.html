@@ -2,38 +2,43 @@
 
 <div class="w-[calc(100vw_-_200px)]">
   <div class="flex justify-center">
-    <h1 class="my-4 text-4xl font-bold">Listado de usuarios</h1>
+    <h1 class="my-4 text-4xl font-bold">Listado de clientes</h1>
   </div>
 
-  <button (click)="navegateTo('admin/create-user')" class="button-black ml-8">
+  <button
+    (click)="navegateTo('admin/create-customer')"
+    class="button-black ml-8"
+  >
     crear
   </button>
 
   <ul>
-    <li class="mx-8 my-4 flex justify-between" *ngFor="let user of users">
+    <li
+      class="mx-8 my-4 flex justify-between"
+      *ngFor="let customer of customers"
+    >
       <div class="flex gap-8">
         <p>
-          {{ user._id }}
+          {{ customer.id }}
         </p>
 
         <p>
-          {{ user.email | titlecase }}
+          {{ customer.user_id }}
         </p>
-
         <p>
-          {{ user.role.name | titlecase }}
+          {{ customer.user.email }}
         </p>
       </div>
 
       <div class="flex gap-8">
         <button
-          (click)="navegateTo('admin/edit-user/' + user._id)"
+          (click)="navegateTo('admin/edit-customer/' + customer.id)"
           class="button-black"
         >
           actualizar
         </button>
 
-        <button (click)="onDelete(user._id)" class="button-black">
+        <button (click)="onDelete(customer.id)" class="button-black">
           eliminar
         </button>
       </div>
