@@ -11,23 +11,32 @@ export interface Data {
 }
 
 export interface Vehicle {
-    id:            number;
-    driver_id:     number;
-    license_plate: string;
-    model:         string;
-    capacity:      number;
-    color:         string;
-    velocity:      number;
-    status:        number;
-    created_at:    string;
-    updated_at:    string;
-    driver:        Driver;
+    id:          number;
+    driver_id:   number;
+    started_at:  string;
+    finished_at: string;
+    distance:    number;
+    status:      number;
+    created_at:  string;
+    updated_at:  string;
+    driver:      Driver;
+    service:     null;
+    points:      Point[];
 }
 
 export interface Driver {
     id:         number;
     user_id:    string;
     is_active:  number;
+    status:     number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Point {
+    id:         number;
+    latitude:   number;
+    longitude:  number;
     status:     number;
     created_at: string;
     updated_at: string;
@@ -44,3 +53,4 @@ export interface Meta {
     next_page_url:     null;
     previous_page_url: null;
 }
+
