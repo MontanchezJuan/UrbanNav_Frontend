@@ -21,11 +21,11 @@ import { Bill, BillData } from '../../../interfaces/ms-business/bill.interface';
   styles: ``,
 })
 export class CreateBillPageComponent implements OnInit {
-    public isLoading: boolean = false;
+  public isLoading: boolean = false;
   public createMode: boolean = true;
-  public services?: any
-  public creditCards?: any
-public form: FormGroup = this.fb.group({
+  public services?: any;
+  public creditCards?: any;
+  public form: FormGroup = this.fb.group({
     service_id: new FormControl('', [Validators.required]),
     credit_card_id: new FormControl('', [Validators.required]),
   });
@@ -38,25 +38,22 @@ public form: FormGroup = this.fb.group({
     private billService: BillService,
     private validatorsService: ValidatorsService,
     private swalService: SwalService,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     if (this.route.snapshot.paramMap.get('id')) {
       this.createMode = false;
 
-      this.billService
-        .show(this.route.snapshot.paramMap.get('id')!)
-        .subscribe({
-          next: (response) => {
-            this.form.reset(response.data);
-                    },
-          error: (message) => {
-            this.swalService.error(message).then(() => {
-              this.goBack();
-            });
-          },
-        });
+      this.billService.show(this.route.snapshot.paramMap.get('id')!).subscribe({
+        next: (response) => {
+          this.form.reset(response.data);
+        },
+        error: (message) => {
+          this.swalService.error(message).then(() => {
+            this.goBack();
+          });
+        },
+      });
     }
   }
 

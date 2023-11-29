@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+import { Observable, catchError, throwError, of, tap } from 'rxjs';
+
 import { environments } from '../../../../environments/environments';
 import { AuthService } from '../../../auth/services/auth.service';
-import { HttpClient } from '@angular/common/http';
-import { LicenseResponse } from '../../interfaces/ms-business/license.interface';
-import { Observable, catchError, throwError, of, tap } from 'rxjs';
+import {
+  LicenseData,
+  LicenseResponse,
+  LicenseResponseOne,
+} from '../../interfaces/ms-business/license.interface';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -21,51 +28,57 @@ export class LicenseService {
     const headers = this.authService.getHeaders();
 
     return this.http
-      .get<LicenseResponse>(`${this.ms_business}/vehicles`, { headers })
+      .get<LicenseResponse>(`${this.ms_business}/licenses`, {
+        headers,
+      })
       .pipe(catchError((error) => throwError(() => error.error.message)));
   }
 
-  // show(id: string): Observable<ResponseOne> {
-  //   if (!localStorage.getItem('token')) return of();
+  show(id: number): Observable<LicenseResponseOne> {
+    if (!localStorage.getItem('token')) return of();
 
-  //   const headers = this.authService.getHeaders();
+    const headers = this.authService.getHeaders();
 
-  //   return this.http
-  //     .get<ResponseOne>(`${this.ms_business}/vehicles/${id}`, {
-  //       headers,
-  //     })
-  //     .pipe(catchError((error) => throwError(() => error.error.message)));
-  // }
+    return this.http
+      .get<LicenseResponseOne>(`${this.ms_business}/licenses/${id}`, {
+        headers,
+      })
+      .pipe(catchError((error) => throwError(() => error.error.message)));
+  }
 
-  // store(data: DataUserProfile): Observable<ResponseOne> {
-  //   if (!localStorage.getItem('token')) return of();
+  store(data: LicenseData): Observable<LicenseResponseOne> {
+    if (!localStorage.getItem('token')) return of();
 
-  //   const headers = this.authService.getHeaders();
+    const headers = this.authService.getHeaders();
 
-  //   return this.http
-  //     .post<ResponseOne>(`${this.ms_business}/vehicles`, data, { headers })
-  //     .pipe(
-  //       catchError((error) => throwError(() => error.error.message)),
-  //     );
-  // }
+    return this.http
+      .post<LicenseResponseOne>(`${this.ms_business}/licenses`, data, {
+        headers,
+      })
+      .pipe(catchError((error) => throwError(() => error.error.message)));
+  }
 
-  // update(data: DataUserProfile, id: string): Observable<ResponseOne> {
-  //   if (!localStorage.getItem('token')) return of();
+  update(data: LicenseData, id: number): Observable<LicenseResponseOne> {
+    if (!localStorage.getItem('token')) return of();
 
-  //   const headers = this.authService.getHeaders();
+    const headers = this.authService.getHeaders();
 
-  //   return this.http
-  //     .put<ResponseOne>(`${this.ms_business}/vehicles/${id}`, data, { headers })
-  //     .pipe(catchError((error) => throwError(() => error.error.message)));
-  // }
+    return this.http
+      .put<LicenseResponseOne>(`${this.ms_business}/licenses/${id}`, data, {
+        headers,
+      })
+      .pipe(catchError((error) => throwError(() => error.error.message)));
+  }
 
-  // destroy(id: string): Observable<ResponseOne> {
-  //   if (!localStorage.getItem('token')) return of();
+  destroy(id: number): Observable<LicenseResponseOne> {
+    if (!localStorage.getItem('token')) return of();
 
-  //   const headers = this.authService.getHeaders();
+    const headers = this.authService.getHeaders();
 
-  //   return this.http
-  //     .delete<ResponseOne>(`${this.ms_business}/vehicles/${id}`, { headers })
-  //     .pipe(catchError((error) => throwError(() => error.error.message)));
-  // }
+    return this.http
+      .delete<LicenseResponseOne>(`${this.ms_business}/licenses/${id}`, {
+        headers,
+      })
+      .pipe(catchError((error) => throwError(() => error.error.message)));
+  }
 }

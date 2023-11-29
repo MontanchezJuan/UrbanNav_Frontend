@@ -2,6 +2,7 @@
 
 import { User } from '../ms-security/users.interface';
 import { License } from './license.interface';
+import { Vehicle } from './vehicle.interface';
 
 export interface DriverResponse {
   mensaje: string;
@@ -27,29 +28,13 @@ export interface Driver {
   updated_at: string;
   user: User;
   trips: any[];
-  license: License;
+  license: License | null;
   vehicles: Vehicle[];
 }
 
-export interface TotalPermission {
-  _id: string;
-  route: string;
-  method: string;
-  description: string;
+export interface DriverData {
+  user_id: string;
   status: number;
-}
-
-export interface Vehicle {
-  id: number;
-  driver_id: number;
-  license_plate: string;
-  model: string;
-  capacity: number;
-  color: string;
-  velocity: number;
-  status: number;
-  created_at: string;
-  updated_at: string;
 }
 
 export interface Meta {

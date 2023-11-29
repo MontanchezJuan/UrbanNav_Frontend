@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Driver } from '../../../interfaces/ms-business/drivers.interface';
 import { Router } from '@angular/router';
-
-import Swal from 'sweetalert2';
-
 import { DriverService } from '../../../services/ms-business/driver.service';
 import { SwalService } from '../../../services/swal.service';
-
-import { Driver } from '../../../interfaces/ms-business/drivers.interface';
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-list-driver-page',
+  selector: 'shared-list-driver-page',
   templateUrl: './list-driver-page.component.html',
   styles: ``,
 })
@@ -25,10 +22,10 @@ export class ListDriverPageComponent {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.listUser();
+    this.listDrivers();
   }
 
-  listUser(): void {
+  listDrivers(): void {
     this.driverService.index().subscribe({
       next: (response) => {
         this.isLoading = false;
@@ -53,7 +50,7 @@ export class ListDriverPageComponent {
       icon: 'info',
       iconColor: '#0F0F0F',
       showCancelButton: true,
-      text: `Deseas eliminar el usuario con id ${id}`,
+      text: `Deseas eliminar el conductor con id ${id}`,
       title: '¿Estás seguro?',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -61,7 +58,7 @@ export class ListDriverPageComponent {
           next: (response) => {
             this.isLoading = false;
 
-            this.listUser();
+            this.listDrivers();
 
             Swal.fire({
               color: '#0F0F0F',

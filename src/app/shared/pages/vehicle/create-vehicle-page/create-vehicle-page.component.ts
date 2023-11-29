@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-create-vehicle-page',
+  selector: 'shared-create-vehicle-page',
   templateUrl: './create-vehicle-page.component.html',
   styles: ``,
 })
