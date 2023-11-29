@@ -1,1 +1,50 @@
-<p>list-permission-page works!</p>
+<shared-loading-spinner *ngIf="isLoading"></shared-loading-spinner>
+
+<div class="w-[calc(100vw_-_200px)]">
+  <div class="flex justify-center">
+    <h1 class="my-4 text-4xl font-bold">Listado de Permisos</h1>
+  </div>
+
+  <button
+    (click)="navegateTo('admin/create-permission')"
+    class="button-black ml-8"
+  >
+    crear
+  </button>
+
+  <ul>
+    <li
+      class="mx-8 my-4 flex justify-between"
+      *ngFor="let permission of permissions"
+    >
+      <div class="flex gap-8">
+        <p>
+          {{ permission._id }}
+        </p>
+
+        <p>
+          {{ permission.route }}
+        </p>
+        <p>
+          {{ permission.method | titlecase }}
+        </p>
+        <!-- <p>
+          {{ permission.description | titlecase }}
+        </p> -->
+      </div>
+
+      <div class="flex gap-8">
+        <button
+          (click)="navegateTo('admin/edit-permission/' + permission._id)"
+          class="button-black"
+        >
+          actualizar
+        </button>
+
+        <button (click)="onDelete(permission._id)" class="button-black">
+          eliminar
+        </button>
+      </div>
+    </li>
+  </ul>
+</div>

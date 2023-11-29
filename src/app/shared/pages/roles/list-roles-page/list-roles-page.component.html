@@ -1,1 +1,38 @@
-<p>list-roles-page works!</p>
+<shared-loading-spinner *ngIf="isLoading"></shared-loading-spinner>
+
+<div class="w-[calc(100vw_-_200px)]">
+  <div class="flex justify-center">
+    <h1 class="my-4 text-4xl font-bold">Listado de Roles</h1>
+  </div>
+
+  <button (click)="navegateTo('admin/create-role')" class="button-black ml-8">
+    crear
+  </button>
+
+  <ul>
+    <li class="mx-8 my-4 flex justify-between" *ngFor="let role of roles">
+      <div class="flex gap-8">
+        <p>
+          {{ role._id }}
+        </p>
+
+        <p>
+          {{ role.name | titlecase }}
+        </p>
+      </div>
+
+      <div class="flex gap-8">
+        <button
+          (click)="navegateTo('admin/edit-role/' + role._id)"
+          class="button-black"
+        >
+          actualizar
+        </button>
+
+        <button (click)="onDelete(role._id)" class="button-black">
+          eliminar
+        </button>
+      </div>
+    </li>
+  </ul>
+</div>
