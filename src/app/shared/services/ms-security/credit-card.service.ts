@@ -47,8 +47,11 @@ export class CreditCardService {
   }
 
   store(data: DataCreditCard): Observable<CreditCardResponseOne> {
+    const headers = this.authService.getHeaders();
     return this.http
-      .post<CreditCardResponseOne>(`${this.ms_security}/credit-card`, data)
+      .post<CreditCardResponseOne>(`${this.ms_security}/credit-card`, data, {
+        headers,
+      })
       .pipe(catchError((error) => throwError(() => error.error.message)));
   }
 

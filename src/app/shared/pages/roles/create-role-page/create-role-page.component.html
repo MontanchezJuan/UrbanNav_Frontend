@@ -1,1 +1,75 @@
-<p>create-role-page works!</p>
+<shared-loading-spinner *ngIf="isLoading"></shared-loading-spinner>
+
+<div class="flex flex-col">
+  <button (click)="goBack()" class="button-black ml-8 mt-4">volver</button>
+
+  <div class="my-4 flex h-full w-[calc(100vw_-_200px)] justify-center">
+    <div class="flex flex-col gap-5">
+      <div class="flex justify-center">
+        <h1 *ngIf="createMode; else editMode" class="text-4xl font-bold">
+          Crear Rol
+        </h1>
+
+        <ng-template #editMode>
+          <h1 class="text-4xl font-bold">Editar Rol</h1>
+        </ng-template>
+      </div>
+
+      <form [formGroup]="form" class="flex h-full flex-col gap-4">
+        <input
+          class="input"
+          formControlName="name"
+          name="name"
+          placeholder="Nombre"
+          type="text"
+        />
+
+        <span *ngIf="isValidField('name')" class="text-red-600">{{
+          getFieldError('name')
+        }}</span>
+
+        <input
+          class="input"
+          formControlName="description"
+          name="description"
+          placeholder="Descripcion"
+          type="text"
+        />
+
+        <span *ngIf="isValidField('description')" class="text-red-600">{{
+          getFieldError('description')
+        }}</span>
+        <label>Permissions:</label>
+        <div formArrayName="permissions">
+          <div *ngFor="let permission of totalPermissions; let i = index">
+            <label>
+              <input
+                type="checkbox"
+                [checked]="permissionControls[i]"
+                [formControl]="permissionControls[i]"
+                (change)="matching(permission, permissionControls[i].value)"
+              />
+
+              Ruta: {{ permission.route }} --- Metodo: {{ permission.method }}
+            </label>
+          </div>
+        </div>
+
+        <button
+          *ngIf="createMode; else editbuttonMode"
+          (click)="onCreate()"
+          class="button-black"
+          type="submit"
+        >
+          Crear Rol
+        </button>
+
+        <ng-template #editbuttonMode>
+          <button (click)="onUpdate()" type="submit" class="button-black">
+            Editar Rol
+          </button>
+        </ng-template>
+      </form>
+    </div>
+  </div>
+</div>

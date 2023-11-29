@@ -1,1 +1,103 @@
-<p>create-creditcard-page works!</p>
+<shared-loading-spinner *ngIf="isLoading"></shared-loading-spinner>
+
+<div class="flex flex-col">
+  <button (click)="goBack()" class="button-black ml-8 mt-4">volver</button>
+
+  <div class="my-4 flex h-full w-[calc(100vw_-_200px)] justify-center">
+    <div class="flex flex-col gap-5">
+      <div class="flex justify-center">
+        <h1 *ngIf="createMode; else editMode" class="text-4xl font-bold">
+          Crear Tarjeta de Credito
+        </h1>
+
+        <ng-template #editMode>
+          <h1 class="text-4xl font-bold">Editar Tarjeta de Credito</h1>
+        </ng-template>
+      </div>
+
+      <form [formGroup]="form" class="flex h-full flex-col gap-4">
+        <input
+          class="input"
+          formControlName="name"
+          name="name"
+          placeholder="Nombre"
+          type="text"
+        />
+
+        <span *ngIf="isValidField('name')" class="text-red-600">{{
+          getFieldError('name')
+        }}</span>
+        <input
+          class="input"
+          formControlName="type"
+          name="type"
+          placeholder="Tipo"
+          type="text"
+        />
+
+        <span *ngIf="isValidField('type')" class="text-red-600">{{
+          getFieldError('type')
+        }}</span>
+        <input
+          class="input"
+          formControlName="cardNumber"
+          name="cardNumber"
+          placeholder="Numero de Tarjeta"
+          type="text"
+        />
+
+        <span *ngIf="isValidField('cardNumber')" class="text-red-600">{{
+          getFieldError('cardNumber')
+        }}</span>
+        <input
+          class="input"
+          formControlName="cardCVV"
+          name="cardCVV"
+          placeholder="CVV"
+          type="text"
+        />
+
+        <span *ngIf="isValidField('cardCVV')" class="text-red-600">{{
+          getFieldError('cardCVV')
+        }}</span>
+        <input
+          class="input"
+          formControlName="expiryDate"
+          name="expiryDate"
+          placeholder="Fecha de expiracion"
+          type="month"
+        />
+
+        <span *ngIf="isValidField('expiryDate')" class="text-red-600">{{
+          getFieldError('expiryDate')
+        }}</span>
+        <input
+          class="input"
+          formControlName="balance"
+          name="balance"
+          placeholder="Balance"
+          type="text"
+        />
+
+        <span *ngIf="isValidField('balance')" class="text-red-600">{{
+          getFieldError('balance')
+        }}</span>
+
+        <button
+          *ngIf="createMode; else editbuttonMode"
+          (click)="onCreate()"
+          class="button-black"
+          type="submit"
+        >
+          Crear Terjeta
+        </button>
+
+        <ng-template #editbuttonMode>
+          <button (click)="onUpdate()" type="submit" class="button-black">
+            Editar Tarjeta
+          </button>
+        </ng-template>
+      </form>
+    </div>
+  </div>
+</div>
