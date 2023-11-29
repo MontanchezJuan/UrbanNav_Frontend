@@ -1,1 +1,79 @@
-<p>create-service-page works!</p>
+<shared-loading-spinner *ngIf="isLoading"></shared-loading-spinner>
+
+<div class="flex flex-col">
+  <button (click)="goBack()" class="button-black ml-8 mt-4">volver</button>
+
+  <div class="my-4 flex h-full w-[calc(100vw_-_200px)] justify-center">
+    <div class="flex flex-col gap-5">
+      <div class="flex justify-center">
+        <h1 *ngIf="createMode; else editMode" class="text-4xl font-bold">
+          Crear Servicio
+        </h1>
+
+        <ng-template #editMode>
+          <h1 class="text-4xl font-bold">Editar Servicio</h1>
+        </ng-template>
+      </div>
+
+      <form [formGroup]="form" class="flex h-full flex-col gap-4">
+        <select
+          class="input"
+          formControlName="customer_id"
+          name="customer_id"
+          [disabled]="true"
+        >
+          <option value="">-- Seleccione el cliente --</option>
+          <option *ngFor="let customer of customers" [value]="customer.id">
+            {{ customer.user.email }}
+          </option>
+        </select>
+
+        <span *ngIf="isValidField('customer_id')" class="text-red-600">{{
+          getFieldError('customer_id')
+        }}</span>
+        <!-- <select
+          class="input"
+          formControlName="trip_id"
+          name="trip_id"
+          [disabled]="true"
+        >
+          <option value="">-- Seleccione el viaje --</option>
+          <option *ngFor="let trip of trips" [value]="trip.id">
+            {{ trip.id }}
+          </option>
+        </select>
+
+        <span *ngIf="isValidField('trip_id')" class="text-red-600">{{
+          getFieldError('trip_id')
+        }}</span> -->
+
+        <input
+          class="input"
+          formControlName="price"
+          name="price"
+          placeholder="Precio"
+          type="text"
+        />
+
+        <span *ngIf="isValidField('price')" class="text-red-600">{{
+          getFieldError('price')
+        }}</span>
+
+        <button
+          *ngIf="createMode; else editbuttonMode"
+          (click)="onCreate()"
+          class="button-black"
+          type="submit"
+        >
+          Crear Servicio
+        </button>
+
+        <ng-template #editbuttonMode>
+          <button (click)="onUpdate()" type="submit" class="button-black">
+            Editar Servicio
+          </button>
+        </ng-template>
+      </form>
+    </div>
+  </div>
+</div>

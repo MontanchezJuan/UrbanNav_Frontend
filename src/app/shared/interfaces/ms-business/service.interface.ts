@@ -35,12 +35,6 @@ export interface DataService {
   trip_id?: number;
   price?: number;
   status: number;
-  created_at: null;
-  updated_at: string;
-  customer: Customer;
-  trip: Trip;
-  bill: null;
-  commentsAndRatings: any[];
 }
 
 export interface Meta {
