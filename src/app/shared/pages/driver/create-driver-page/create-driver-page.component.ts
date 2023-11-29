@@ -3,8 +3,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-create-driver-page',
   templateUrl: './create-driver-page.component.html',
-  styles: ``
+  styles: ``,
 })
-export class CreateDriverPageComponent {
-
-}
+export class CreateDriverPageComponent {}

@@ -3,8 +3,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-list-driver-page',
   templateUrl: './list-driver-page.component.html',
-  styles: ``
+  styles: ``,
 })
-export class ListDriverPageComponent {
-
-}
+export class ListDriverPageComponent {}
