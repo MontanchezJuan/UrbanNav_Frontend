@@ -28,12 +28,28 @@
         formControlName="password"
         name="password"
         placeholder="Contraseña"
-        type="text"
+        [type]="typePassword"
       />
 
       <span *ngIf="isValidField('password')" class="text-red-600">{{
         getFieldError('password')
       }}</span>
+
+      <div class="flex justify-end">
+        <strong
+          class="cursor-pointer"
+          *ngIf="typePassword === 'password'; else txt"
+          (click)="changeTypeText()"
+        >
+          Mostrar contraseña
+        </strong>
+
+        <ng-template #txt>
+          <strong class="cursor-pointer" (click)="changeTypePassword()">
+            Ocultar contraseña
+          </strong>
+        </ng-template>
+      </div>
 
       <button type="submit" class="button-black">Ingresar</button>
     </form>

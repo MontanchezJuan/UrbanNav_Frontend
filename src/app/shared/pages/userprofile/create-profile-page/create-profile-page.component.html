@@ -1,0 +1,133 @@
+<shared-loading-spinner *ngIf="isLoading"></shared-loading-spinner>
+
+<div class="flex flex-col">
+  <button (click)="goBack()" class="button-black ml-8 mt-4">volver</button>
+
+  <div
+    class="my-4 flex h-full w-[calc(100vw_-_200px)] flex-col-reverse justify-evenly md:flex-row"
+  >
+    <div class="flex flex-col gap-5">
+      <div class="flex justify-center">
+        <h1 *ngIf="createMode; else editMode" class="text-4xl font-bold">
+          Crear perfil
+        </h1>
+
+        <ng-template #editMode>
+          <h1 class="text-4xl font-bold">Editar perfil</h1>
+        </ng-template>
+      </div>
+
+      <form [formGroup]="form" class="flex h-full flex-col gap-4">
+        <input
+          class="input"
+          formControlName="name"
+          name="name"
+          placeholder="Nombre"
+          type="text"
+        />
+
+        <span *ngIf="isValidField('name')" class="text-red-600">{{
+          getFieldError('name')
+        }}</span>
+
+        <input
+          class="input"
+          formControlName="lastName"
+          name="lastName"
+          placeholder="Apellido"
+          type="text"
+        />
+
+        <span *ngIf="isValidField('lastName')" class="text-red-600">{{
+          getFieldError('lastName')
+        }}</span>
+
+        <input
+          class="input"
+          formControlName="profilePhoto"
+          name="profilePhoto"
+          placeholder="Foto de perfil"
+          type="text"
+          (keyup)="changePhotoProfile(txtInput.value)"
+          #txtInput
+        />
+
+        <span *ngIf="isValidField('profilePhoto')" class="text-red-600">{{
+          getFieldError('profilePhoto')
+        }}</span>
+
+        <label for="date"> Fecha de cumpleaños </label>
+
+        <input
+          id="date"
+          class="input"
+          formControlName="birthday"
+          name="birthday"
+          [max]="max"
+          type="date"
+        />
+
+        <span *ngIf="isValidField('birthday')" class="text-red-600">{{
+          getFieldError('birthday')
+        }}</span>
+
+        <select
+          class="input"
+          formControlName="backgroundImage"
+          name="backgroundImage"
+        >
+          <option value="">-- Seleccione un color de fondo --</option>
+          <option *ngFor="let color of colors" [value]="color.color">
+            {{ color.name }}
+          </option>
+        </select>
+
+        <span *ngIf="isValidField('backgroundImage')" class="text-red-600">{{
+          getFieldError('backgroundImage')
+        }}</span>
+
+        <input
+          class="input"
+          formControlName="numberPhone"
+          name="numberPhone"
+          placeholder="Telefono"
+          type="tel"
+        />
+
+        <span *ngIf="isValidField('numberPhone')" class="text-red-600">{{
+          getFieldError('numberPhone')
+        }}</span>
+
+        <button
+          *ngIf="createMode; else editbuttonMode"
+          (click)="onCreate()"
+          class="button-black"
+          type="submit"
+        >
+          Crear perfil
+        </button>
+
+        <ng-template #editbuttonMode>
+          <button (click)="onUpdate()" type="submit" class="button-black">
+            Editar perfil
+          </button>
+        </ng-template>
+      </form>
+    </div>
+
+    <div
+      class="relative flex h-[300px] w-[90vw] items-center justify-center overflow-hidden rounded-lg border-4 border-black md:w-[360px]"
+    >
+      <img
+        class="absolute h-[200px] w-[200px] rounded-full"
+        [src]="profilephoto"
+        [alt]="profilephoto"
+      />
+
+      <div
+        class="absolute bottom-0 right-0 z-[-1] h-[300px] w-[90vw] md:w-[360px]"
+        [ngClass]="form.controls['backgroundImage'].value"
+      ></div>
+    </div>
+  </div>
+</div>

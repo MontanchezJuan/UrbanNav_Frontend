@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
-import { User } from '../../../auth/interfaces/user.interface';
+
+import { AuthService } from '../../../auth/services/auth.service';
+import { User } from '../../../shared/interfaces/ms-security/users.interface';
 
 @Component({
-  selector: 'app-layout-page',
+  selector: 'costumer-layout-page',
   templateUrl: './layout-page.component.html',
   styles: ``,
 })

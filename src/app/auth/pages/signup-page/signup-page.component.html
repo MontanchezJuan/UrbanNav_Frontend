@@ -1,3 +1,5 @@
+<shared-loading-spinner *ngIf="isLoading"></shared-loading-spinner>
+
 <div class="flex h-full flex-col justify-center gap-12">
   <div class="flex flex-col gap-5">
     <div class="flex justify-center">
@@ -26,7 +28,7 @@
         formControlName="password"
         name="password"
         placeholder="Contraseña"
-        type="text"
+        [type]="typePassword"
       />
 
       <span *ngIf="isValidField('password')" class="text-red-600">{{
@@ -38,12 +40,28 @@
         formControlName="confirmPassword"
         name="confirmPassword"
         placeholder="Confirmar contraseña"
-        type="text"
+        [type]="typePassword"
       />
 
       <span *ngIf="isValidField('confirmPassword')" class="text-red-600">{{
         getFieldError('confirmPassword')
       }}</span>
+
+      <div class="flex justify-end">
+        <strong
+          class="cursor-pointer"
+          *ngIf="typePassword === 'password'; else txt"
+          (click)="changeTypeText()"
+        >
+          Mostrar contraseñas
+        </strong>
+
+        <ng-template #txt>
+          <strong class="cursor-pointer" (click)="changeTypePassword()">
+            Ocultar contraseñas
+          </strong>
+        </ng-template>
+      </div>
 
       <button type="submit" class="button-black">Regístrarse</button>
     </form>

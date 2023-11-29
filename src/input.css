@@ -87,9 +87,9 @@
 @tailwind utilities;
 
 .input {
-  @apply bg-gray h-12 w-full rounded-lg px-4;
+  @apply h-12 w-full rounded-lg bg-gray px-4;
 }
 
 .button-black {
-  @apply rounded-2xl bg-black py-3 text-white;
+  @apply rounded-2xl bg-black px-4 py-2 text-white;
 }

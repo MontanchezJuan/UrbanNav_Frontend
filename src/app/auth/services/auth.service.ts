@@ -1,45 +1,96 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environments } from '../../../environments/environments';
-import { DataUser, User } from '../interfaces/user.interface';
-import { Observable, tap, of, catchError, map } from 'rxjs';
+import {
+  AuthResponse,
+  DataLogin,
+  DataToken,
+} from '../interfaces/auth.interface';
+import { User } from '../../shared/interfaces/ms-security/users.interface';
+import { Observable, tap, of, catchError, map, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = environments.ms_security;
-  private user?: User;
+  private ms_security = environments.ms_security;
+  private user?: User | null;
+
   constructor(private http: HttpClient) {}
 
-  get currentUser(): User | undefined {
-    if (!this.user) return undefined;
+  get currentUser(): User {
+    if (!this.user) return Object();
 
     return structuredClone(this.user);
   }
 
-  login(data: DataUser): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/security/login`, data);
-    // .pipe();
-    // tap((user) => console.log(user)),
-    // tap((user) => (this.user = user)),
-    // tap((user) => localStorage.setItem('token', user.id)),
+  login(data: DataLogin): Observable<DataToken> {
+    return this.http
+      .post<DataToken>(`${this.ms_security}/security/login`, data)
+      .pipe(
+        tap((response) => localStorage.setItem('token', response.data)),
+        catchError((error) => throwError(() => error.error.message)),
+      );
+  }
+
+  signup(data: DataLogin): Observable<AuthResponse> {
+    return this.http
+      .post<AuthResponse>(`${this.ms_security}/security/sign-up`, data)
+      .pipe(catchError((error) => throwError(() => error.error.message)));
+  }
+
+  getUser(): Observable<AuthResponse> {
+    if (!localStorage.getItem('token')) return of();
+
+    const headers = this.getHeaders();
+
+    return this.http
+      .get<AuthResponse>(`${this.ms_security}/security/get-user`, {
+        headers,
+      })
+      .pipe(
+        tap((response) => (this.user = response.data)),
+        catchError((error) => throwError(() => error.error.message)),
+      );
+  }
+
+  getHeaders(): HttpHeaders {
+    const token: string | null = localStorage.getItem('token');
+
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
   }
 
   checkAuthentication(): Observable<boolean> {
     if (!localStorage.getItem('token')) return of(false);
 
-    const token = localStorage.getItem('token');
+    const headers = this.getHeaders();
 
-    return this.http.get<User>(`${this.baseUrl}/`).pipe(
-      tap((user) => (this.user = user)),
-      map((user) => !!user),
-      catchError((error) => of(false)),
-    );
+    return this.http
+      .get<AuthResponse>(`${this.ms_security}/security/get-user`, {
+        headers,
+      })
+      .pipe(
+        tap((response) => (this.user = response.data)),
+        map((user) => !!user),
+        catchError((error) => throwError(() => error.error.message)),
+      );
+  }
+
+  redirectToAccount(): string {
+    if (!this.user) return 'home';
+
+    if (this.user.role.name === 'default') return 'profile';
+
+    // if (!this.user.role.name) return 'profile/license';
+
+    if (!this.user.userProfile) return 'profile/costumize-profile';
+
+    return `${this.user.role.name}`;
   }
 
   logout(): void {
-    this.user = undefined;
     localStorage.clear();
   }
 }
