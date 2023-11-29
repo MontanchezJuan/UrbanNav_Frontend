@@ -31,6 +31,7 @@ export class PermissionService {
       })
       .pipe(catchError((error) => throwError(() => error.error.message)));
   }
+
   show(id: string): Observable<PermissionResponseOne> {
     if (!localStorage.getItem('token')) return of();
 
@@ -44,8 +45,14 @@ export class PermissionService {
   }
 
   store(data: DataPermission): Observable<PermissionResponseOne> {
+    if (!localStorage.getItem('token')) return of();
+
+    const headers = this.authService.getHeaders();
+
     return this.http
-      .post<PermissionResponseOne>(`${this.ms_security}/permissions`, data)
+      .post<PermissionResponseOne>(`${this.ms_security}/permissions`, data, {
+        headers,
+      })
       .pipe(catchError((error) => throwError(() => error.error.message)));
   }
 

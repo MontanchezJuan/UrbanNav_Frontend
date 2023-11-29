@@ -1,1 +1,71 @@
-<p>create-permission-page works!</p>
+<shared-loading-spinner *ngIf="isLoading"></shared-loading-spinner>
+
+<div class="flex flex-col">
+  <button (click)="goBack()" class="button-black ml-8 mt-4">volver</button>
+
+  <div class="my-4 flex h-full w-[calc(100vw_-_200px)] justify-center">
+    <div class="flex flex-col gap-5">
+      <div class="flex justify-center">
+        <h1 *ngIf="createMode; else editMode" class="text-4xl font-bold">
+          Crear Permiso
+        </h1>
+
+        <ng-template #editMode>
+          <h1 class="text-4xl font-bold">Editar Permiso</h1>
+        </ng-template>
+      </div>
+
+      <form [formGroup]="form" class="flex h-full flex-col gap-4">
+        <input
+          class="input"
+          formControlName="route"
+          name="route"
+          placeholder="Ruta"
+          type="text"
+        />
+
+        <span *ngIf="isValidField('route')" class="text-red-600">{{
+          getFieldError('route')
+        }}</span>
+
+        <select class="input" formControlName="method" name="method">
+          <option value="">-- Seleccione el metodo --</option>
+          <option *ngFor="let method of methods" [value]="method">
+            {{ method }}
+          </option>
+        </select>
+
+        <span *ngIf="isValidField('method')" class="text-red-600">{{
+          getFieldError('method')
+        }}</span>
+
+        <input
+          class="input"
+          formControlName="description"
+          name="description"
+          placeholder="Descripcion"
+          type="text"
+        />
+
+        <span *ngIf="isValidField('description')" class="text-red-600">{{
+          getFieldError('description')
+        }}</span>
+
+        <button
+          *ngIf="createMode; else editbuttonMode"
+          (click)="onCreate()"
+          class="button-black"
+          type="submit"
+        >
+          Crear Rol
+        </button>
+
+        <ng-template #editbuttonMode>
+          <button (click)="onUpdate()" type="submit" class="button-black">
+            Editar Rol
+          </button>
+        </ng-template>
+      </form>
+    </div>
+  </div>
+</div>
