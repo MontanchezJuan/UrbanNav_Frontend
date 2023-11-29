@@ -74,22 +74,35 @@ export class UserService {
       .pipe(catchError((error) => throwError(() => error.error.message)));
   }
 
-  matchUserProfile(id_user_profile: string): Observable<Response> {
+  matchUserProfile(
+    id_user_profile: string,
+    id_user?: string,
+  ): Observable<UserResponseOne> {
     if (!localStorage.getItem('token')) return of();
 
     const headers = this.authService.getHeaders();
-
-    const user = this.authService.currentUser;
-
-    return this.http
-      .put<Response>(
-        `${this.ms_security}/users/user/${user._id}/user_profile/${id_user_profile}`,
-        null,
-        {
-          headers,
-        },
-      )
-      .pipe(catchError((error) => throwError(() => error.error.message)));
+    if (id_user) {
+      return this.http
+        .put<UserResponseOne>(
+          `${this.ms_security}/users/user/${id_user}/user_profile/${id_user_profile}`,
+          null,
+          {
+            headers,
+          },
+        )
+        .pipe(catchError((error) => throwError(() => error.error.message)));
+    } else {
+      const user = this.authService.currentUser;
+      return this.http
+        .put<UserResponseOne>(
+          `${this.ms_security}/users/user/${user._id}/user_profile/${id_user_profile}`,
+          null,
+          {
+            headers,
+          },
+        )
+        .pipe(catchError((error) => throwError(() => error.error.message)));
+    }
   }
 
   matchRole(id_user: string, id_role: string): Observable<UserResponseOne> {

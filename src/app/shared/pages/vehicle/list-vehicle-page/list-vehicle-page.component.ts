@@ -11,7 +11,7 @@ import { Vehicle } from '../../../interfaces/ms-business/vehicle.interface';
 @Component({
   selector: 'shared-list-vehicle-page',
   templateUrl: './list-vehicle-page.component.html',
-  styles: ``
+  styles: ``,
 })
 export class ListVehiclePageComponent implements OnInit {
 public isLoading: boolean = false;

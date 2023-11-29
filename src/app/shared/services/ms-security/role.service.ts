@@ -46,8 +46,13 @@ export class RoleService {
   }
 
   store(data: DataRole): Observable<RoleResponseOne> {
+    if (!localStorage.getItem('token')) return of();
+
+    const headers = this.authService.getHeaders();
     return this.http
-      .post<RoleResponseOne>(`${this.ms_security}/roles`, data)
+      .post<RoleResponseOne>(`${this.ms_security}/roles`, data, {
+        headers,
+      })
       .pipe(catchError((error) => throwError(() => error.error.message)));
   }
 
@@ -82,7 +87,7 @@ export class RoleService {
 
     return this.http
       .put<RoleResponseOne>(
-        `${this.ms_security}/users/role/${id_role}/permission/${id_permission}`,
+        `${this.ms_security}/roles/role/${id_role}/permission/${id_permission}`,
         null,
         {
           headers,
@@ -101,7 +106,7 @@ export class RoleService {
 
     return this.http
       .delete<RoleResponseOne>(
-        `${this.ms_security}/users/role/${id_role}/permission/${id_permission}`,
+        `${this.ms_security}/roles/role/${id_role}/permission/${id_permission}`,
 
         {
           headers,

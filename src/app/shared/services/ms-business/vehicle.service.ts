@@ -10,7 +10,7 @@ import {
 import { AuthService } from '../../../auth/services/auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VehicleService {
   private ms_business = environments.ms_business;
