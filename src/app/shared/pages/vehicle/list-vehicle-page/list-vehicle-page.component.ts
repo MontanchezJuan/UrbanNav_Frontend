@@ -14,7 +14,7 @@ import { Vehicle } from '../../../interfaces/ms-business/vehicle.interface';
   styles: ``,
 })
 export class ListVehiclePageComponent implements OnInit {
-public isLoading: boolean = false;
+  public isLoading: boolean = false;
   public vehicles?: Vehicle[] = [];
 
   constructor(

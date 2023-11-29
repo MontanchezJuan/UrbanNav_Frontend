@@ -4,9 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError, of, tap } from 'rxjs';
 
 import { environments } from '../../../../environments/environments';
-import {
-  VehicleResponse
-} from '../../interfaces/ms-business/vehicle.interface';
+import { VehicleResponse } from '../../interfaces/ms-business/vehicle.interface';
 import { AuthService } from '../../../auth/services/auth.service';
 
 @Injectable({
