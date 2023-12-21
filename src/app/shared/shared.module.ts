@@ -40,6 +40,8 @@ import { CreatePointPageComponent } from './pages/point/create-point-page/create
 import { ListPointPageComponent } from './pages/point/list-point-page/list-point-page.component';
 import { ListVehiclePageComponent } from './pages/vehicle/list-vehicle-page/list-vehicle-page.component';
 import { CreateVehiclePageComponent } from './pages/vehicle/create-vehicle-page/create-vehicle-page.component';
+import { CardProfileComponent } from './components/card-profile/card-profile.component';
+import { LimitLetters } from './pipes/LimitLetters.pipe';
 
 @NgModule({
   declarations: [
@@ -79,9 +81,12 @@ import { CreateVehiclePageComponent } from './pages/vehicle/create-vehicle-page/
     ListPointPageComponent,
     ListVehiclePageComponent,
     CreateVehiclePageComponent,
+    CardProfileComponent,
+    LimitLetters,
   ],
   imports: [CommonModule, MatIconModule, ReactiveFormsModule, HttpClientModule],
   exports: [
+    CardProfileComponent,
     CreateProfilePageComponent,
     Error404PageComponent,
     ListProfilePageComponent,

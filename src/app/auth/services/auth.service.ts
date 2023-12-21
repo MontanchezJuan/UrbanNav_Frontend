@@ -74,7 +74,10 @@ export class AuthService {
       .pipe(
         tap((response) => (this.user = response.data)),
         map((user) => !!user),
-        catchError((error) => throwError(() => error.error.message)),
+        catchError((error) => {
+          localStorage.clear();
+          return throwError(() => error.error.message);
+        }),
       );
   }
 

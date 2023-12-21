@@ -2,44 +2,70 @@
 
 <div class="w-[calc(100vw_-_200px)]">
   <div class="flex justify-center">
-    <h1 class="my-4 text-4xl font-bold">Listado de Licensias</h1>
+    <h1 class="my-4 text-4xl font-bold">Listado de Licencias</h1>
   </div>
 
-  <button
-    (click)="navegateTo('admin/create-license')"
-    class="button-black ml-8"
+  <div class="mb-4 flex w-full justify-center">
+    <button
+      (click)="navegateTo('admin/create-license')"
+      class="button-black flex items-center gap-2"
+    >
+      <mat-icon
+        class="flex items-center justify-center text-[20px]"
+        style="width: 20px; height: 20px"
+      >
+        add
+      </mat-icon>
+      Crear una licencia
+    </button>
+  </div>
+
+  <div
+    class="mx-4 mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
   >
-    crear
-  </button>
+    <div
+      *ngFor="let license of licenses"
+      class="grid grid-cols-2 p-4 shadow-lg"
+    >
+      <p class="col-span-2">
+        {{ license.id }}
+      </p>
 
-  <ul>
-    <li class="mx-8 my-4 flex justify-between" *ngFor="let license of licenses">
-      <div class="flex gap-8">
-        <p>
-          {{ license.id }}
-        </p>
+      <p class="col-span-2">
+        {{ license.description }}
+      </p>
 
-        <p>
-          {{ license.description }}
-        </p>
+      <p class="col-span-2">
+        {{ license.type }}
+      </p>
 
-        <p>
-          {{ license.type }}
-        </p>
-      </div>
-
-      <div class="flex gap-8">
+      <div class="col-span-2 flex justify-between">
         <button
-          (click)="navegateTo('admin/edit-vehicle/' + license.id)"
-          class="button-black"
+          (click)="navegateTo('admin/edit-license/' + license.id)"
+          class="button-black col-span-1 flex items-center gap-2"
         >
-          actualizar
+          <mat-icon
+            class="flex items-center justify-center text-[20px]"
+            style="width: 20px; height: 20px"
+          >
+            edit
+          </mat-icon>
+          Editar
         </button>
 
-        <!-- <button (click)="onDelete(vehicle.id)" class="button-black">
-          eliminar
-        </button> -->
+        <button
+          (click)="onDelete(license.id)"
+          class="button-black col-span-1 flex items-center gap-2"
+        >
+          <mat-icon
+            class="flex items-center justify-center text-[20px]"
+            style="width: 20px; height: 20px"
+          >
+            delete
+          </mat-icon>
+          Eliminar
+        </button>
       </div>
-    </li>
-  </ul>
+    </div>
+  </div>
 </div>

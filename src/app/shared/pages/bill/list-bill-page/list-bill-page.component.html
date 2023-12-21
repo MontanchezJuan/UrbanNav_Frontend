@@ -5,38 +5,47 @@
     <h1 class="my-4 text-4xl font-bold">Listado de facturas</h1>
   </div>
 
-  <button (click)="navegateTo('admin/create-bill')" class="button-black ml-8">
-    crear
-  </button>
+  <div class="mb-4 flex w-full justify-center">
+    <button
+      (click)="navegateTo('admin/create-bill')"
+      class="button-black flex items-center gap-2"
+    >
+      <mat-icon
+        class="flex items-center justify-center text-[20px]"
+        style="width: 20px; height: 20px"
+      >
+        add
+      </mat-icon>
+      Crear una factura
+    </button>
+  </div>
 
-  <ul>
-    <li class="mx-8 my-4 flex justify-between" *ngFor="let bill of bills">
-      <div class="flex gap-8">
-        <p>
-          {{ bill.id }}
-        </p>
+  <div
+    class="mx-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+  >
+    <div *ngFor="let bill of bills" class="grid grid-cols-2 p-4 shadow-lg">
+      <p class="col-span-2">
+        {{ bill.id }}
+      </p>
 
-        <p>
-          {{ bill.credit_card_id | titlecase }}
-        </p>
+      <p class="col-span-2">
+        {{ bill.credit_card_id | titlecase }}
+      </p>
 
-        <p>
-          {{ bill.service_id.toString() | titlecase }}
-        </p>
-      </div>
+      <p class="col-span-2">
+        {{ bill.service_id.toString() | titlecase }}
+      </p>
 
-      <div class="flex gap-8">
-        <button
-          (click)="navegateTo('admin/edit-bill/' + bill.id)"
-          class="button-black"
-        >
-          actualizar
-        </button>
+      <button
+        (click)="navegateTo('admin/edit-bill/' + bill.id)"
+        class="button-black"
+      >
+        actualizar
+      </button>
 
-        <button (click)="onDelete(bill.id.toString())" class="button-black">
-          eliminar
-        </button>
-      </div>
-    </li>
-  </ul>
+      <button (click)="onDelete(bill.id.toString())" class="button-black">
+        eliminar
+      </button>
+    </div>
+  </div>
 </div>

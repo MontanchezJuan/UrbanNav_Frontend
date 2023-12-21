@@ -93,3 +93,7 @@
 .button-black {
   @apply rounded-2xl bg-black px-4 py-2 text-white;
 }
+
+.button-white {
+  @apply rounded-2xl bg-white px-4 py-2 text-black;
+}

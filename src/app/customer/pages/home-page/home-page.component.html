@@ -1,1 +1,11 @@
-<p>home-page works!</p>
+<div class="relative">
+  <maps-full-screen
+    (markersOut)="changeMarkers($event)"
+    (mapOut)="changeMap($event)"
+  ></maps-full-screen>
+
+  <costumer-search-service
+    [markers]="markers!"
+    [map]="map"
+  ></costumer-search-service>
+</div>
