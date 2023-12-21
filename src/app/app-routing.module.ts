@@ -25,18 +25,21 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () =>
       import('./admin/admin.module').then((m) => m.AdminModule),
+    canMatch: [authCanMatchGuard],
     canActivate: [authCanActivateGuard],
   },
   {
     path: 'customer',
     loadChildren: () =>
       import('./customer/customer.module').then((m) => m.CustomerModule),
+    canMatch: [authCanMatchGuard],
     canActivate: [authCanActivateGuard],
   },
   {
     path: 'driver',
     loadChildren: () =>
       import('./driver/driver.module').then((m) => m.DriverModule),
+    canMatch: [authCanMatchGuard],
     canActivate: [authCanActivateGuard],
   },
   {

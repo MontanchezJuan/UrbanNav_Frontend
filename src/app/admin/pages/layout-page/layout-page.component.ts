@@ -12,21 +12,21 @@ interface Routes {
 })
 export class LayoutPageComponent {
   public routes: Routes[] = [
-    { name: 'users', routerLink: 'list-users' },
-    { name: 'users profiles', routerLink: 'list-user-profiles' },
-    { name: 'roles', routerLink: 'list-roles' },
-    { name: 'permissions', routerLink: 'list-permissions' },
-    { name: 'credit cards', routerLink: 'list-credit-cards' },
     { name: 'bills', routerLink: 'list-bills' },
     { name: 'comments and rating', routerLink: 'list-comments-and-rating' },
     { name: 'contacts', routerLink: 'list-contacts' },
+    { name: 'credit cards', routerLink: 'list-credit-cards' },
     { name: 'customers', routerLink: 'list-customers' },
     { name: 'drivers', routerLink: 'list-drivers' },
     { name: 'licenses', routerLink: 'list-licenses' },
+    { name: 'permissions', routerLink: 'list-permissions' },
+    { name: 'points', routerLink: 'list-points' },
+    { name: 'roles', routerLink: 'list-roles' },
     { name: 'services', routerLink: 'list-services' },
     { name: 'trip points', routerLink: 'list-trip-points' },
     { name: 'trips', routerLink: 'list-trips' },
-    { name: 'points', routerLink: 'list-points' },
+    { name: 'users profiles', routerLink: 'list-user-profiles' },
+    { name: 'users', routerLink: 'list-users' },
     { name: 'vehicles', routerLink: 'list-vehicles' },
   ];
 }

@@ -5,46 +5,69 @@
     <h1 class="my-4 text-4xl font-bold">Listado de Permisos</h1>
   </div>
 
-  <button
-    (click)="navegateTo('admin/create-permission')"
-    class="button-black ml-8"
-  >
-    crear
-  </button>
-
-  <ul>
-    <li
-      class="mx-8 my-4 flex justify-between"
-      *ngFor="let permission of permissions"
+  <div class="mb-4 flex w-full justify-center">
+    <button
+      (click)="navegateTo('admin/create-permission')"
+      class="button-black flex items-center gap-2"
     >
-      <div class="flex gap-8">
-        <p>
-          {{ permission._id }}
-        </p>
+      <mat-icon
+        class="flex items-center justify-center text-[20px]"
+        style="width: 20px; height: 20px"
+      >
+        add
+      </mat-icon>
+      Crear un permiso
+    </button>
+  </div>
 
-        <p>
-          {{ permission.route }}
-        </p>
-        <p>
-          {{ permission.method | titlecase }}
-        </p>
-        <!-- <p>
-          {{ permission.description | titlecase }}
-        </p> -->
-      </div>
+  <div
+    class="mx-4 mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+  >
+    <div
+      *ngFor="let permission of permissions"
+      class="grid grid-cols-2 p-4 shadow-lg"
+    >
+      <p class="col-span-2">
+        {{ permission._id }}
+      </p>
 
-      <div class="flex gap-8">
+      <p class="col-span-2">
+        ruta:
+        {{ permission.route }}
+      </p>
+
+      <p class="col-span-2">
+        metodo:
+        {{ permission.method | titlecase }}
+      </p>
+
+      <div class="col-span-2 flex justify-between">
         <button
           (click)="navegateTo('admin/edit-permission/' + permission._id)"
-          class="button-black"
+          class="button-black col-span-1 flex items-center gap-2"
         >
-          actualizar
+          <mat-icon
+            class="flex items-center justify-center text-[20px]"
+            style="width: 20px; height: 20px"
+          >
+            edit
+          </mat-icon>
+          Editar
         </button>
 
-        <button (click)="onDelete(permission._id)" class="button-black">
-          eliminar
+        <button
+          (click)="onDelete(permission._id)"
+          class="button-black col-span-1 flex items-center gap-2"
+        >
+          <mat-icon
+            class="flex items-center justify-center text-[20px]"
+            style="width: 20px; height: 20px"
+          >
+            delete
+          </mat-icon>
+          Eliminar
         </button>
       </div>
-    </li>
-  </ul>
+    </div>
+  </div>
 </div>

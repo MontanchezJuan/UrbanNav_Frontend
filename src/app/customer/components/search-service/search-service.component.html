@@ -1,0 +1,73 @@
+<div
+  class="absolute bottom-16 right-[calc(50%_-_240px)] flex h-[120px] w-[480px] flex-col justify-evenly rounded-lg bg-black text-white"
+>
+  <div class="flex justify-evenly">
+    <div class="flex flex-col items-center justify-center">
+      <p>Origen</p>
+      <div class="flex items-center gap-2">
+        <div
+          class="h-[32px] w-[80px] rounded-lg"
+          [ngStyle]="{
+            backgroundColor: markers
+              ? markers[0]
+                ? markers[0].color
+                : '#0F0F0F'
+              : '#0F0F0F'
+          }"
+        ></div>
+
+        <mat-icon
+          class="flex items-center justify-center text-[20px]"
+          (click)="deleteMarker(0)"
+          style="width: 20px; height: 20px"
+          [ngStyle]="{
+            color: markers
+              ? markers[0]
+                ? markers[0].color
+                : '#0F0F0F'
+              : '#0F0F0F',
+            cursor: markers ? (markers[0] ? 'pointer' : 'default') : 'default'
+          }"
+        >
+          delete
+        </mat-icon>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center justify-center">
+      <p>Destino</p>
+      <div class="flex items-center gap-2">
+        <div
+          class="h-[32px] w-[80px] rounded-lg"
+          [ngStyle]="{
+            backgroundColor: markers
+              ? markers[1]
+                ? markers[1].color
+                : '#0F0F0F'
+              : '#0F0F0F'
+          }"
+        ></div>
+
+        <mat-icon
+          class="flex items-center justify-center text-[20px]"
+          (click)="deleteMarker(1)"
+          style="width: 20px; height: 20px"
+          [ngStyle]="{
+            color: markers
+              ? markers[1]
+                ? markers[1].color
+                : '#0F0F0F'
+              : '#0F0F0F',
+            cursor: markers ? (markers[1] ? 'pointer' : 'default') : 'default'
+          }"
+        >
+          delete
+        </mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-center">
+    <button (click)="searchRoute()" class="button-white">Buscar viaje</button>
+  </div>
+</div>

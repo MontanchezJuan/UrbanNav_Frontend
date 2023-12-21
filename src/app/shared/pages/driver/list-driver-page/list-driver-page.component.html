@@ -5,38 +5,66 @@
     <h1 class="my-4 text-4xl font-bold">Listado de conductores</h1>
   </div>
 
-  <button (click)="navegateTo('admin/create-driver')" class="button-black ml-8">
-    crear
-  </button>
+  <div class="mb-4 flex w-full justify-center">
+    <button
+      (click)="navegateTo('admin/create-driver')"
+      class="button-black flex items-center gap-2"
+    >
+      <mat-icon
+        class="flex items-center justify-center text-[20px]"
+        style="width: 20px; height: 20px"
+      >
+        add
+      </mat-icon>
+      Crear un conductor
+    </button>
+  </div>
 
-  <ul>
-    <li class="mx-8 my-4 flex justify-between" *ngFor="let driver of drivers">
-      <div class="flex gap-8">
-        <p>
-          {{ driver.id }}
-        </p>
+  <div
+    class="mx-4 mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+  >
+    <div *ngFor="let driver of drivers" class="grid grid-cols-2 p-4 shadow-lg">
+      <p class="col-span-2">
+        {{ driver.id }}
+      </p>
 
-        <p>
-          {{ driver.user_id }}
-        </p>
+      <p class="col-span-2">
+        id usuario:
+        {{ driver.user_id }}
+      </p>
 
-        <p>
-          {{ driver.user.email }}
-        </p>
-      </div>
+      <p class="col-span-2">
+        email:
+        {{ driver.user.email }}
+      </p>
 
-      <div class="flex gap-8">
+      <div class="col-span-2 flex justify-between">
         <button
           (click)="navegateTo('admin/edit-driver/' + driver.id)"
-          class="button-black"
+          class="button-black col-span-1 flex items-center gap-2"
         >
-          actualizar
+          <mat-icon
+            class="flex items-center justify-center text-[20px]"
+            style="width: 20px; height: 20px"
+          >
+            edit
+          </mat-icon>
+          Editar
         </button>
 
-        <button (click)="onDelete(driver.id)" class="button-black">
-          eliminar
+        <button
+          (click)="onDelete(driver.id)"
+          class="button-black col-span-1 flex items-center gap-2"
+        >
+          <mat-icon
+            class="flex items-center justify-center text-[20px]"
+            style="width: 20px; height: 20px"
+          >
+            delete
+          </mat-icon>
+          Eliminar
         </button>
       </div>
-    </li>
-  </ul>
+    </div>
+  </div>
 </div>

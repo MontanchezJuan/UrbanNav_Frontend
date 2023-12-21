@@ -1,0 +1,13 @@
+<div
+  class="flex h-[50px] w-[200px] cursor-pointer items-center gap-4 rounded-lg bg-gray px-2"
+>
+  <img
+    class="w-[40px] rounded-full"
+    [src]="profilePhoto"
+    [alt]="profilePhoto"
+  />
+
+  <p class="text-black">
+    {{ name | titlecase | limitLetters: 10 }}
+  </p>
+</div>

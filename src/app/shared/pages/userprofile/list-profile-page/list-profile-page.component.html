@@ -5,40 +5,64 @@
     <h1 class="my-4 text-4xl font-bold">Listado de perfiles de usuario</h1>
   </div>
 
-  <button
-    (click)="navegateTo('admin/create-profile')"
-    class="button-black ml-8"
-  >
-    crear
-  </button>
-
-  <ul>
-    <li
-      class="mx-8 my-4 flex justify-between"
-      *ngFor="let userProfile of userProfiles"
+  <div class="mb-4 flex w-full justify-center">
+    <button
+      (click)="navegateTo('admin/create-profile')"
+      class="button-black flex items-center gap-2"
     >
-      <div class="flex gap-8">
-        <p>
-          {{ userProfile._id }}
-        </p>
+      <mat-icon
+        class="flex items-center justify-center text-[20px]"
+        style="width: 20px; height: 20px"
+      >
+        add
+      </mat-icon>
+      Crear un perfil de usuario
+    </button>
+  </div>
 
-        <p>
-          {{ userProfile.name | titlecase }}
-        </p>
-      </div>
+  <div
+    class="mx-4 mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+  >
+    <div
+      *ngFor="let userProfile of userProfiles"
+      class="grid grid-cols-2 p-4 shadow-lg"
+    >
+      <p class="col-span-2">
+        {{ userProfile._id }}
+      </p>
 
-      <div class="flex gap-8">
+      <p class="col-span-2">
+        nombre:
+        {{ userProfile.name | titlecase }}
+      </p>
+
+      <div class="col-span-2 flex justify-between">
         <button
           (click)="navegateTo('admin/edit-profile/' + userProfile._id)"
-          class="button-black"
+          class="button-black col-span-1 flex items-center gap-2"
         >
-          actualizar
+          <mat-icon
+            class="flex items-center justify-center text-[20px]"
+            style="width: 20px; height: 20px"
+          >
+            edit
+          </mat-icon>
+          Editar
         </button>
 
-        <button (click)="onDelete(userProfile._id)" class="button-black">
-          eliminar
+        <button
+          (click)="onDelete(userProfile._id)"
+          class="button-black col-span-1 flex items-center gap-2"
+        >
+          <mat-icon
+            class="flex items-center justify-center text-[20px]"
+            style="width: 20px; height: 20px"
+          >
+            delete
+          </mat-icon>
+          Eliminar
         </button>
       </div>
-    </li>
-  </ul>
+    </div>
+  </div>
 </div>
