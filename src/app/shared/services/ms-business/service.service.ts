@@ -44,13 +44,13 @@ export class ServiceService {
       .pipe(catchError((error) => throwError(() => error.error.message)));
   }
 
-  store(data: any): Observable<ServiceResponseOne> {
+  store(data: any): Observable<any> {
     if (!localStorage.getItem('token')) return of();
 
     const headers = this.authService.getHeaders();
 
     return this.http
-      .post<ServiceResponseOne>(`${this.ms_business}/services`, data, {
+      .post<any>(`${this.ms_business}/services`, data, {
         headers,
       })
       .pipe(catchError((error) => throwError(() => error.error.message)));

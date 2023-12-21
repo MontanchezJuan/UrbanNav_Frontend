@@ -8,6 +8,7 @@ import { environments } from '../../../../environments/environments';
 import { ServiceService } from '../../../shared/services/ms-business/service.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { SwalService } from '../../../shared/services/swal.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'costumer-search-service',
@@ -67,7 +68,14 @@ export class SearchServiceComponent {
 
         this.serviceService.store(dataService).subscribe({
           next: (response) => {
-            console.log(response);
+            Swal.fire({
+              color: '#0F0F0F',
+              confirmButtonColor: '#0F0F0F',
+              icon: 'success',
+              iconColor: '#0F0F0F',
+              title: `${response.mensaje}`,
+              text: `precio: ${response.data.service.price}`,
+            });
 
             this.map!.addSource('route', {
               type: 'geojson',
